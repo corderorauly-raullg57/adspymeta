@@ -1,542 +1,1122 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0A0A0F">
-<title>AdSpy Meta — Espía los anuncios que ya venden. Gratis · Herramix</title>
-<meta name="description" content="Busca anuncios de Facebook e Instagram en la Biblioteca de Meta, analízalos con IA (texto, imagen o video) y crea una versión mejorada. Gratis, sin registro y con la IA en tu PC.">
-<meta property="og:title" content="AdSpy Meta — Espía los anuncios que ya venden">
-<meta property="og:description" content="Encuentra los anuncios que funcionan, descubre por qué con IA y crea el tuyo mejor. 100% gratis.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://corderorauly-raullg57.github.io/adspymeta/">
-<meta property="og:image" content="https://corderorauly-raullg57.github.io/adspymeta/adspy-banner.jpg">
-<meta property="og:image:width" content="1236">
-<meta property="og:image:height" content="632">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0A0A0F;--bg-2:#101018;--surface:#14141F;--surface-2:#1C1C2E;--border:#2A2A3E;--border-2:#3A3A52;
-  --text:#F8FAFC;--text-2:#CBD5E1;--text-3:#94A3B8;--text-4:#64748B;
-  --primary:#6366F1;--fuchsia:#E879F9;--cyan:#38BDF8;--green:#22C55E;--gold:#F59E0B;--red:#EF4444;
-  --grad:linear-gradient(90deg,#E879F9,#38BDF8);
-  --r:16px;--ease:cubic-bezier(.16,1,.3,1);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;color-scheme:dark}
-body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,Segoe UI,Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-img{max-width:100%;display:block}
-.container{max-width:1160px;margin:0 auto;padding:0 20px}
-.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-
-/* nav */
-.nav{position:sticky;top:0;z-index:40;background:rgba(10,10,15,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.nav .container{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}
-.logo-mark{width:34px;height:34px;border-radius:10px;background:var(--grad);display:grid;place-items:center;font-size:18px}
-.logo small{display:block;font-size:11px;font-weight:500;color:var(--text-4);line-height:1}
-.nav-links{display:flex;gap:26px;font-size:14px;color:var(--text-3)}
-.nav-links a:hover{color:var(--text)}
-@media(max-width:900px){.nav-links{display:none}}
-
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:14px 22px;font-weight:800;font-size:15px;border:1px solid transparent;cursor:pointer;transition:transform .2s var(--ease),box-shadow .2s;font-family:inherit;white-space:nowrap}
-.btn:hover{transform:translateY(-2px)}
-.btn-main{background:linear-gradient(135deg,#C026D3,#6366F1 55%,#0EA5E9);color:#fff;box-shadow:0 10px 30px rgba(168,85,247,.35)}
-.btn-ghost{background:var(--surface);border-color:var(--border-2);color:var(--text)}
-.btn-wa{background:#16A34A;color:#fff;box-shadow:0 10px 26px rgba(22,163,74,.3)}
-.btn-sm{padding:10px 16px;font-size:13.5px}
-.btn svg{width:18px;height:18px}
-
-/* sections */
-section{padding:84px 0}
-.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:100px;background:rgba(232,121,249,.12);color:#F0ABFC;border:1px solid rgba(232,121,249,.32);margin-bottom:16px}
-.tag.cyan{background:rgba(56,189,248,.12);color:#7DD3FC;border-color:rgba(56,189,248,.32)}
-.tag.gold{background:rgba(245,158,11,.12);color:#FCD34D;border-color:rgba(245,158,11,.35)}
-h1{font-size:clamp(34px,5.2vw,58px);line-height:1.08;letter-spacing:-.03em;font-weight:900}
-h2{font-size:clamp(28px,3.6vw,42px);line-height:1.15;letter-spacing:-.025em;font-weight:900;margin-bottom:14px}
-h3{font-size:19px;font-weight:800;letter-spacing:-.01em;margin-bottom:8px}
-.lead{font-size:18px;color:var(--text-2);max-width:620px}
-.head{text-align:center;max-width:760px;margin:0 auto 48px}
-.head .lead{margin:0 auto}
-.muted{color:var(--text-3)}
-
-/* hero */
-.hero{padding:64px 0 72px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:-20% -10% auto;height:620px;background:radial-gradient(600px 340px at 18% 30%,rgba(232,121,249,.18),transparent 70%),radial-gradient(560px 320px at 85% 20%,rgba(56,189,248,.16),transparent 70%);pointer-events:none}
-.hero-grid{display:grid;grid-template-columns:1fr 1.08fr;gap:48px;align-items:center;position:relative}
-@media(max-width:960px){.hero-grid{grid-template-columns:1fr;text-align:center}.hero .lead{margin:0 auto}}
-.hero .lead{margin:20px 0 28px}
-.ctas{display:flex;gap:12px;flex-wrap:wrap}
-@media(max-width:960px){.ctas{justify-content:center}}
-.trust{display:flex;gap:10px 18px;flex-wrap:wrap;margin-top:24px;font-size:13.5px;color:var(--text-3)}
-@media(max-width:960px){.trust{justify-content:center}}
-.trust span::before{content:'✓ ';color:var(--green);font-weight:900}
-.hero-img{border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.06);transform:rotate(1deg)}
-.hero-note{font-size:12.5px;color:var(--text-4);margin-top:12px}
-
-/* pain */
-.pain{background:var(--bg-2);border-block:1px solid var(--border)}
-.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media(max-width:860px){.cards3{grid-template-columns:1fr}}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px}
-.card .ico{font-size:28px;margin-bottom:12px}
-.card p{color:var(--text-3);font-size:15px}
-.bridge{text-align:center;margin-top:36px;font-size:19px;font-weight:700}
-
-/* steps */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
-@media(max-width:860px){.steps{grid-template-columns:1fr}}
-.step{position:relative;padding-top:58px}
-.step::before{counter-increment:s;content:counter(s);position:absolute;top:20px;left:24px;width:30px;height:30px;border-radius:50%;background:var(--grad);color:#0A0A0F;font-weight:900;display:grid;place-items:center;font-size:15px}
-
-/* demo */
-.split{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
-@media(max-width:960px){.split{grid-template-columns:1fr}}
-.list{list-style:none;margin:20px 0 0;display:grid;gap:12px}
-.list li{display:flex;gap:12px;color:var(--text-2);font-size:15.5px}
-.list li b{color:var(--text)}
-.list li i{font-style:normal;flex:0 0 26px;font-size:19px;line-height:1.4}
-.mock{background:linear-gradient(180deg,#141d3b,#0f1630);border:1px solid #273566;border-radius:20px;padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.5)}
-.mock-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:13px;color:#9fb0d8}
-.mock-top b{color:#eaf0ff;font-size:15px}
-.scores{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-@media(max-width:480px){.scores{grid-template-columns:repeat(3,1fr)}}
-.sc{background:#0c1330;border:1px solid #273566;border-radius:10px;padding:9px}
-.sc small{display:block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#9fb0d8;font-weight:700}
-.sc strong{font-size:21px;font-weight:900}
-.sc .bar{height:5px;border-radius:9px;background:#080d24;margin-top:6px;overflow:hidden}
-.sc .bar i{display:block;height:100%;width:0;border-radius:9px;transition:width 1.2s var(--ease)}
-.mock.on .sc .bar i{width:var(--w)}
-.sc.main strong{color:#22d3ee}
-.mock-out{background:#080d24;border:1px solid #273566;border-radius:12px;padding:14px;margin-top:12px;font-size:13.5px;line-height:1.55;color:#cfd8f5}
-.mock-out h4{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:#22d3ee;margin:10px 0 4px}
-.mock-out h4:first-child{margin-top:0}
-.mock-out .ba{display:block;margin:3px 0}
-.mock-out s{color:#fca5a5}
-.mock-out em{font-style:normal;color:#86efac}
-
-/* video */
-.video-sec{background:var(--bg-2);border-block:1px solid var(--border)}
-.frames{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:14px}
-@media(max-width:520px){.frames{grid-template-columns:repeat(4,1fr)}}
-.fr{aspect-ratio:9/16;border-radius:7px;position:relative;border:1px solid #273566;overflow:hidden}
-.fr.hook{border:2px solid #22d3ee}
-.fr span{position:absolute;left:3px;bottom:3px;font-size:9.5px;background:rgba(0,0,0,.7);padding:0 4px;border-radius:4px}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.chips span{background:#0c1330;border:1px solid #273566;border-radius:99px;padding:4px 10px;font-size:12px;color:#cfd8f5}
-.script{margin-top:12px;display:grid;gap:6px}
-.script div{display:grid;grid-template-columns:64px 1fr;gap:10px;background:#0c1330;border:1px solid #273566;border-radius:10px;padding:8px 10px;font-size:13px;color:#cfd8f5}
-.script b{color:#22d3ee;font-size:12px}
-
-/* for who */
-.who{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:860px){.who{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){.who{grid-template-columns:1fr}}
-.who .card{padding:20px}
-.who h3{font-size:16.5px}
-.who p{font-size:14px}
-.cuba{display:grid;grid-template-columns:.62fr 1fr;gap:36px;align-items:center;margin-top:44px;background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px}
-@media(max-width:860px){.cuba{grid-template-columns:1fr;text-align:center}.cuba img{max-width:280px;margin:0 auto}}
-.cuba img{border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
-.kw{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-@media(max-width:860px){.kw{justify-content:center}}
-.kw span{font-size:13px;padding:6px 12px;border-radius:99px;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.3);color:#BAE6FD}
-
-/* route / funnel */
-.route{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:40px;position:relative}
-@media(max-width:860px){.route{grid-template-columns:1fr 1fr;gap:14px}}
-.route div{text-align:center;padding:0 10px;position:relative}
-.route div::after{content:'→';position:absolute;right:-10px;top:12px;color:var(--text-4);font-size:22px}
-.route div:last-child::after{display:none}
-@media(max-width:860px){.route div::after{display:none}}
-.route .dot{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;margin:0 auto 10px;font-size:24px;background:var(--surface-2);border:1px solid var(--border-2)}
-.route .dot.free{background:var(--grad);border:0}
-.route b{display:block;font-size:14.5px}
-.route small{color:var(--text-3);font-size:12.5px}
-.offers{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:18px;align-items:stretch}
-@media(max-width:960px){.offers{grid-template-columns:1fr}}
-.offer{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:26px;display:flex;flex-direction:column;position:relative}
-.offer.star{border:1px solid rgba(245,158,11,.55);background:linear-gradient(180deg,rgba(245,158,11,.08),transparent 40%),var(--surface);box-shadow:0 0 0 1px rgba(245,158,11,.15),0 24px 60px rgba(0,0,0,.45)}
-.ribbon{position:absolute;top:-12px;left:24px;background:var(--gold);color:#1a1205;font-size:11.5px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:99px}
-.offer .what{font-size:12.5px;color:var(--text-4);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
-.offer h3{font-size:23px}
-.offer .pitch{color:var(--text-2);font-size:15px;margin-bottom:14px}
-.price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:4px 0 4px}
-.price .now{font-size:40px;font-weight:900;letter-spacing:-.03em}
-.price .was{color:var(--text-4);text-decoration:line-through;font-size:18px}
-.price .save{background:rgba(34,197,94,.15);color:#4ADE80;font-size:12px;font-weight:800;padding:3px 9px;border-radius:99px}
-.price-note{font-size:13px;color:var(--text-3);margin-bottom:16px}
-.offer ul{list-style:none;display:grid;gap:8px;margin-bottom:22px;flex:1}
-.offer li{font-size:14.5px;color:var(--text-2);padding-left:24px;position:relative}
-.offer li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:900}
-.offer .btns{display:grid;gap:8px}
-.offer .btn{width:100%}
-.pay{text-align:center;margin-top:26px;color:var(--text-3);font-size:14px}
-.pay b{color:var(--text)}
-
-/* free extra */
-.extra{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:22px;background:var(--surface);border:1px dashed var(--border-2);border-radius:18px;padding:18px 22px}
-.extra p{color:var(--text-3);font-size:14.5px}
-.extra b{color:var(--text)}
-
-/* setup */
-.setup{background:var(--bg-2);border-block:1px solid var(--border)}
-.req{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media(max-width:860px){.req{grid-template-columns:1fr}}
-code{font-family:ui-monospace,Consolas,monospace;background:#080d24;border:1px solid var(--border);border-radius:7px;padding:2px 7px;font-size:13px;color:#BAE6FD}
-
-/* faq */
-.faq{max-width:820px;margin:0 auto;display:grid;gap:10px}
-details{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px}
-summary{cursor:pointer;font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:12px}
-summary::-webkit-details-marker{display:none}
-summary::after{content:'+';color:var(--fuchsia);font-size:22px;line-height:1;transition:transform .2s}
-details[open] summary::after{transform:rotate(45deg)}
-details p{color:var(--text-3);margin-top:10px;font-size:15px}
-
-/* final */
-.final{text-align:center;position:relative;overflow:hidden}
-.final::before{content:'';position:absolute;inset:0;background:radial-gradient(600px 300px at 50% 60%,rgba(168,85,247,.16),transparent 70%);pointer-events:none}
-.final .ctas{justify-content:center;margin-top:28px}
-footer{border-top:1px solid var(--border);padding:30px 0;color:var(--text-4);font-size:13px;text-align:center;line-height:1.8}
-footer a{color:var(--text-3);text-decoration:underline}
-
-.wa-float{position:fixed;right:18px;bottom:18px;z-index:50;width:58px;height:58px;border-radius:50%;background:#16A34A;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.45)}
-.wa-float svg{width:30px;height:30px;fill:#fff}
-
-.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.reveal.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.btn:hover{transform:none}}
+  :root{
+    --bg:#0b1020; --card:#141d3b; --line:#273566; --field:#0c1330;
+    --txt:#eaf0ff; --mut:#9fb0d8; --acc:#4f7cff; --acc2:#22d3ee; --ok:#22c55e; --bad:#ef4444; --r:14px;
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:dark}
+  body{margin:0;background:radial-gradient(1000px 500px at 15% -10%,#22306a 0%,transparent 60%),var(--bg);color:var(--txt);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;text-align:left}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px 16px 50px}
+  header{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-size:22px;font-weight:900}
+  .brand h1{font-size:19px;margin:0}
+  .brand small{color:var(--mut);font-size:12.5px}
+  .tabs{display:flex;gap:6px;background:#0d1430;border:1px solid var(--line);padding:5px;border-radius:999px}
+  .tabs button{border:0;background:transparent;color:var(--mut);padding:9px 16px;border-radius:999px;font-weight:700;cursor:pointer;font-size:14px}
+  .tabs button.on{background:var(--acc);color:#fff}
+  .tabs .count{font-size:11px;background:rgba(255,255,255,.15);border-radius:99px;padding:1px 7px;margin-left:4px}
+  .grid{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;align-items:start}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+  .card h2{margin:0 0 4px;font-size:16px}
+  .desc{margin:0 0 10px;color:var(--mut);font-size:13px;line-height:1.5}
+  label.f{display:block;margin:12px 0 5px;font-size:11.5px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+  input[type=text],input[type=url],input[type=date],select,textarea{width:100%;background:var(--field);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px 11px;font-size:14px;outline:none;font-family:inherit}
+  textarea{min-height:110px;resize:vertical;line-height:1.5}
+  input:focus,select:focus,textarea:focus{border-color:var(--acc2)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  @media(max-width:560px){.row,.row3{grid-template-columns:1fr}}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);background:var(--field);color:var(--txt);border-radius:999px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+  .chip.on{background:var(--acc);border-color:var(--acc);font-weight:700}
+  .check{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mut);margin-top:8px;cursor:pointer}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .btn{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:11px;padding:11px 16px;font-weight:800;font-size:14px;cursor:pointer;color:#fff;background:var(--acc);text-decoration:none;font-family:inherit}
+  .btn.big{width:100%;justify-content:center;padding:14px;font-size:15px}
+  .btn.ghost{background:var(--field);border:1px solid var(--line);color:var(--txt)}
+  .btn.teal{background:#0891b2}
+  .btn.small{padding:7px 11px;font-size:12.5px;border-radius:9px}
+  .btn:disabled{opacity:.55;cursor:wait}
+  .urlbox{background:#080d24;border:1px dashed var(--line);border-radius:10px;padding:9px 10px;font-size:11.5px;word-break:break-all;color:var(--acc2);margin-top:10px;max-height:72px;overflow:auto}
+  .steps{margin:12px 0 0;padding:0;list-style:none;counter-reset:s}
+  .steps li{counter-increment:s;position:relative;padding:0 0 10px 34px;font-size:13.5px;line-height:1.5;color:var(--mut)}
+  .steps li b{color:var(--txt)}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:-1px;width:24px;height:24px;border-radius:50%;background:var(--field);border:1px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:800;color:var(--acc2)}
+  .hint{font-size:12px;color:var(--mut);margin-top:6px;line-height:1.45}
+  .list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+  .item{background:var(--field);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+  .item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .item small{color:var(--mut)}
+  .scores{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:6px 0 4px}
+  @media(max-width:560px){.scores{grid-template-columns:repeat(2,1fr)}}
+  .score{background:var(--field);border:1px solid var(--line);border-radius:10px;padding:9px}
+  .score b{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;display:block}
+  .score span{font-size:18px;font-weight:800}
+  .score.main span{color:var(--acc2)}
+  .bar{height:6px;background:#080d24;border-radius:99px;margin-top:6px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;transition:width .6s;background:var(--acc)}
+  .out{background:#080d24;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px;line-height:1.6;font-size:14px}
+  .out h3{margin:14px 0 6px;font-size:13px;color:var(--acc2);text-transform:uppercase;letter-spacing:.5px}
+  .out h3:first-child{margin-top:0}
+  .out p{margin:4px 0}
+  .out ul{margin:4px 0 4px 18px;padding:0}
+  .out li{margin:3px 0}
+  .status{color:var(--mut);font-size:13px;margin-top:10px}
+  .status.err{color:#fca5a5}
+  .status.ok{color:#86efac}
+  .spin{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;animation:sp .8s linear infinite;vertical-align:-2px;margin-right:6px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .imgPrev{max-width:100%;max-height:200px;border-radius:10px;border:1px solid var(--line);margin-top:8px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{border-bottom:1px solid var(--line);padding:9px 6px;text-align:left;vertical-align:top}
+  th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  td .mut{color:var(--mut)}
+  .empty{color:var(--mut);font-size:13px;padding:14px 0}
+  .footer{color:var(--mut);font-size:12px;margin-top:18px;text-align:center}
+  .inl{display:flex;gap:8px}
+  .inl input{flex:1;min-width:0}
+  .inl .btn{white-space:nowrap}
+  details{margin-top:10px;background:var(--field);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+  summary{cursor:pointer;font-weight:700;font-size:13px;color:var(--mut)}
+  .badge{display:inline-block;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:99px;margin-left:6px;vertical-align:1px}
+  .badge.on{background:rgba(34,197,94,.18);color:#86efac}
+  .badge.off{background:rgba(159,176,216,.15);color:var(--mut)}
+  code{font-family:ui-monospace,monospace;background:#080d24;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12px;color:var(--txt)}
+  .drop{border:2px dashed var(--line);border-radius:12px;padding:14px;text-align:center;color:var(--mut);font-size:13px;transition:.15s}
+  .drop.over{border-color:var(--acc2);background:rgba(34,211,238,.07);color:var(--txt)}
+  .vstats{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .vstats span{background:var(--field);border:1px solid var(--line);border-radius:99px;padding:4px 10px;font-size:12px}
+  .frames{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+  .frames figure{margin:0;position:relative}
+  .frames img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:6px;border:1px solid var(--line);display:block;background:#000}
+  .frames.wide img{aspect-ratio:16/9}
+  .frames figure.hook img{border:2px solid var(--acc2)}
+  .frames figcaption{position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.75);font-size:10.5px;padding:1px 6px;border-radius:5px}
+  .footer a{color:var(--acc2)}
+  .promo{margin-top:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,rgba(79,124,255,.18),rgba(34,211,238,.12));border:1px solid rgba(34,211,238,.4);border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+  .promo span{color:var(--mut)}
+  .hidden{display:none !important}
 </style>
-</head>
-<body>
 
-<nav class="nav">
-  <div class="container">
-    <a href="#" class="logo"><span class="logo-mark">🕵️</span><span>AdSpy Meta<small>by Herramix</small></span></a>
-    <div class="nav-links">
-      <a href="#como">Cómo funciona</a>
-      <a href="#video">Video</a>
-      <a href="#kit">Kit de anuncios</a>
-      <a href="#faq">Preguntas</a>
-    </div>
-    <a href="app.html" class="btn btn-main btn-sm">Usar gratis</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<header class="hero">
-  <div class="container hero-grid">
-    <div>
-      <span class="tag">🆕 100% gratis · sin registro</span>
-      <h1>Espía los anuncios que <span class="grad">ya están vendiendo</span> y crea el tuyo mejor</h1>
-      <p class="lead">Busca en la Biblioteca de anuncios de Facebook e Instagram, descubre qué hace tu competencia y deja que la IA te diga <b>por qué funciona</b> y <b>cómo superarlo</b>. Deja de adivinar: copia la estructura de lo que vende.</p>
-      <div class="ctas">
-        <a href="app.html" class="btn btn-main">🔎 Abrir AdSpy gratis
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2.4" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
-        <a href="AdSpy-Meta.zip" class="btn btn-ghost">💻 Descargar para Windows</a>
-      </div>
-      <div class="trust"><span>Sin registro</span><span>IA en tu PC, sin internet</span><span>Texto, imagen y video</span><span>Sin límite de análisis</span></div>
-    </div>
-    <div>
-      <img class="hero-img" src="adspy-banner.jpg" alt="AdSpy Meta: encuentra, analiza e inspírate con los mejores anuncios de Facebook e Instagram" width="1236" height="632">
-    </div>
-  </div>
-</header>
-
-<!-- DOLOR -->
-<section class="pain">
-  <div class="container">
-    <div class="head reveal">
-      <h2>Cada anuncio que inventas desde cero <span class="grad">es una apuesta</span></h2>
-      <p class="lead">Y cada apuesta perdida es dinero que se fue en publicidad que nadie miró.</p>
-    </div>
-    <div class="cards3">
-      <div class="card reveal"><div class="ico">💸</div><h3>Pagas por aprender</h3><p>Lanzas, no funciona, cambias algo, vuelves a pagar. El método de prueba y error sale caro.</p></div>
-      <div class="card reveal"><div class="ico">🤷</div><h3>No sabes qué falla</h3><p>¿Era el texto, la imagen, la oferta o el botón? Sin un diagnóstico, cambias a ciegas.</p></div>
-      <div class="card reveal"><div class="ico">⏳</div><h3>La competencia ya lo resolvió</h3><p>Hay anuncios de tu mismo nicho que llevan semanas activos. Si siguen ahí, es porque les funcionan.</p></div>
-    </div>
-    <p class="bridge reveal">AdSpy Meta te enseña esos anuncios, te explica por qué venden y <span class="grad">te da tu versión mejorada</span>.</p>
-  </div>
-</section>
-
-<!-- CÓMO FUNCIONA -->
-<section id="como">
-  <div class="container">
-    <div class="head reveal">
-      <span class="tag cyan">Cómo funciona</span>
-      <h2>De “no sé qué publicar” a un anuncio con ventaja, en 3 pasos</h2>
-    </div>
-    <div class="steps">
-      <div class="card step reveal"><h3>Busca lo que ya funciona</h3><p>Palabra clave, país, idioma, formato, plataformas y fecha en que empezaron a circular. Un clic y ves los anuncios reales en la Biblioteca de Meta.</p></div>
-      <div class="card step reveal"><h3>Analízalo con IA</h3><p>Pega el texto, sube la captura o el video. Recibes una nota de 0 a 100, lo que funciona, lo que falla y los riesgos con las políticas de Meta.</p></div>
-      <div class="card step reveal"><h3>Lanza tu versión mejorada</h3><p>Te entrega el anuncio reescrito y 3 versiones con ganchos distintos para probar. Guarda los mejores en tu colección.</p></div>
-    </div>
-    <img class="reveal" src="adspy-analisis.jpg" alt="AdSpy Meta analiza anuncios con inteligencia artificial: gancho, puntos fuertes y débiles, mejoras y puntuación" loading="lazy" width="612" height="602" style="max-width:520px;width:100%;margin:40px auto 0;border-radius:20px;box-shadow:0 30px 70px rgba(0,0,0,.5)">
-  </div>
-</section>
-
-<!-- DEMO RESULTADO -->
-<section>
-  <div class="container split">
-    <div class="reveal">
-      <span class="tag">Lo que obtienes</span>
-      <h2>Un diagnóstico de experto en <span class="grad">menos de un minuto</span></h2>
-      <p class="lead">Como tener a un especialista en publicidad revisando cada anuncio contigo.</p>
-      <ul class="list">
-        <li><i>📊</i><span><b>Nota de 0 a 100</b> en gancho, oferta, confianza, botón y una nota global.</span></li>
-        <li><i>✅</i><span><b>Lo que funciona</b>, para que lo repitas en tus anuncios.</span></li>
-        <li><i>🔧</i><span><b>Lo que falla</b>, con ejemplos de antes → después.</span></li>
-        <li><i>⚠️</i><span><b>Riesgos con las políticas de Meta</b>, antes de que te rechacen el anuncio.</span></li>
-        <li><i>✍️</i><span><b>Versión mejorada</b> lista para publicar, y 3 variantes para probar.</span></li>
-      </ul>
-    </div>
-    <div class="mock reveal" id="mock">
-      <div class="mock-top"><b>Resultado</b><span>Ollama · gemma3:4b</span></div>
-      <div class="scores">
-        <div class="sc"><small>Gancho</small><strong>58</strong><div class="bar"><i style="--w:58%;background:#4f7cff"></i></div></div>
-        <div class="sc"><small>Oferta</small><strong>81</strong><div class="bar"><i style="--w:81%;background:#22c55e"></i></div></div>
-        <div class="sc"><small>Confianza</small><strong>44</strong><div class="bar"><i style="--w:44%;background:#ef4444"></i></div></div>
-        <div class="sc"><small>CTA</small><strong>70</strong><div class="bar"><i style="--w:70%;background:#4f7cff"></i></div></div>
-        <div class="sc main"><small>Global</small><strong>63</strong><div class="bar"><i style="--w:63%;background:#4f7cff"></i></div></div>
-      </div>
-      <div class="mock-out">
-        <h4>Lo que funciona</h4>
-        Oferta clara: 30% de descuento + envío gratis, visible en la primera línea.
-        <h4>Lo que falla</h4>
-        <span class="ba"><s>“Nuestro sérum es el mejor”</s> → <em>“+12.000 clientas lo usan cada mañana”</em></span>
-        <span class="ba"><s>“Compra ya”</s> → <em>“Pide el tuyo hoy y recíbelo en 48 h”</em></span>
-        <h4>Riesgo Meta</h4>
-        “Piel perfecta en 7 días” es una promesa de resultado: suavízala para evitar el rechazo.
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- VIDEO -->
-<section class="video-sec" id="video">
-  <div class="container split">
-    <div class="mock reveal" style="order:0">
-      <div class="mock-top"><b>🎬 anuncio-video.mp4</b><span>Procesado en tu PC</span></div>
-      <div class="chips"><span>⏱ 0:24</span><span>🎞 9 escenas</span><span>✂ un corte cada 2,7 s</span><span>⚡ 2 cortes en 0-3 s</span><span>📐 vertical</span></div>
-      <div class="frames">
-        <div class="fr hook" style="background:linear-gradient(160deg,#f472b6,#7c3aed)"><span>0.3 s</span></div>
-        <div class="fr hook" style="background:linear-gradient(160deg,#fb923c,#db2777)"><span>1.3 s</span></div>
-        <div class="fr hook" style="background:linear-gradient(160deg,#facc15,#ea580c)"><span>2.6 s</span></div>
-        <div class="fr" style="background:linear-gradient(160deg,#34d399,#0e7490)"><span>3.5 s</span></div>
-        <div class="fr" style="background:linear-gradient(160deg,#38bdf8,#1e3a8a)"><span>8.6 s</span></div>
-        <div class="fr" style="background:linear-gradient(160deg,#a78bfa,#312e81)"><span>13.7 s</span></div>
-        <div class="fr" style="background:linear-gradient(160deg,#f87171,#7f1d1d)"><span>18.8 s</span></div>
-        <div class="fr" style="background:linear-gradient(160deg,#4ade80,#14532d)"><span>23.7 s</span></div>
-      </div>
-      <div class="script">
-        <div><b>0–3 s</b>Primer plano del problema + texto: “¿Piel opaca cada mañana?”</div>
-        <div><b>3–8 s</b>El producto en la mano, aplicación en un gesto.</div>
-        <div><b>8–15 s</b>Resultado real y testimonio corto en pantalla.</div>
-        <div><b>15–20 s</b>Oferta: 30% OFF + envío gratis. Botón: “Pide el tuyo”.</div>
-      </div>
-    </div>
-    <div class="reveal">
-      <span class="tag cyan">También para videos</span>
-      <h2>¿El anuncio es un video? <span class="grad">Lo desmonta por ti</span></h2>
-      <p class="lead">Sube el video del anuncio o tu grabación de pantalla. AdSpy lo procesa en tu PC y la IA lo analiza escena por escena.</p>
-      <ul class="list">
-        <li><i>🎯</i><span><b>El gancho de 3 segundos</b>: si detiene el scroll y cómo mejorarlo.</span></li>
-        <li><i>✂️</i><span><b>Ritmo medido</b>: duración, escenas y cada cuánto hay un corte.</span></li>
-        <li><i>🖼</i><span><b>8 fotogramas clave</b> que la IA mira uno por uno.</span></li>
-        <li><i>📝</i><span><b>Guion nuevo escena por escena</b>: qué se ve, qué se lee y qué se dice.</span></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- PARA QUIÉN -->
-<section>
-  <div class="container">
-    <div class="head reveal">
-      <span class="tag">Para quién es</span>
-      <h2>Si anuncias en Facebook o Instagram, <span class="grad">esto es para ti</span></h2>
-    </div>
-    <div class="who">
-      <div class="card reveal"><h3>🛍️ Emprendedores y tiendas</h3><p>Mira qué anuncia tu competencia antes de gastar un peso en el tuyo.</p></div>
-      <div class="card reveal"><h3>📱 Community managers</h3><p>Llega a cada cliente con ideas probadas y un análisis que justifica tu propuesta.</p></div>
-      <div class="card reveal"><h3>🏢 Agencias</h3><p>Investigación de anuncios por nicho y país en minutos, y una colección exportable a Excel.</p></div>
-      <div class="card reveal"><h3>🎬 Creadores de video</h3><p>Descubre qué ganchos y qué ritmo usan los videos que más se anuncian.</p></div>
-      <div class="card reveal"><h3>🧑‍🏫 Quien aprende publicidad</h3><p>Cada análisis es una clase: por qué un anuncio vende y otro no.</p></div>
-      <div class="card reveal"><h3>📦 Envíos, combos y recargas</h3><p>Un nicho con muchísima publicidad: aprende de los que llevan años anunciando.</p></div>
-    </div>
-    <div class="cuba reveal">
-      <img src="adspy-vertical.jpg" alt="AdSpy Meta: busca anuncios como envíos a Cuba o combos Cuba" loading="lazy" width="531" height="1024">
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">◈</div>
       <div>
-        <span class="tag gold">Ejemplo real</span>
-        <h2 style="font-size:clamp(24px,3vw,34px)">Mira qué anuncian los negocios que venden hacia Cuba</h2>
-        <p class="lead">Elige el país <b>Estados Unidos</b> o <b>Todos</b> y busca palabras como estas. Verás cientos de anuncios reales con sus textos, ofertas y videos.</p>
-        <div class="kw"><span>envíos a Cuba</span><span>combos Cuba</span><span>recargas Cubacel</span><span>remesas</span><span>Habana</span><span>Holguín</span></div>
-        <div class="ctas" style="margin-top:22px"><a href="app.html" class="btn btn-main">Probar ahora gratis →</a></div>
+        <h1>AdSpy Meta</h1>
+        <small>Encuentra anuncios en la Biblioteca de Meta · analízalos · mejóralos</small>
       </div>
     </div>
-  </div>
-</section>
+    <nav class="tabs" id="tabs">
+      <button data-tab="buscar" class="on">🔎 Buscar</button>
+      <button data-tab="analizar">🧠 Analizar</button>
+      <button data-tab="guardados">💾 Guardados <span class="count" id="savedCount">0</span></button>
+    </nav>
+  </header>
 
-<!-- EMBUDO / KIT -->
-<section id="kit" class="setup">
-  <div class="container">
-    <div class="head reveal">
-      <span class="tag gold">Siguiente paso</span>
-      <h2>Ya sabes qué anuncio hacer. <span class="grad">Ahora créalo.</span></h2>
-      <p class="lead">AdSpy te da el guion ganador. Estas herramientas lo convierten en un anuncio listo para publicar, sin agencia y sin suscripciones.</p>
-    </div>
+  <!-- ============ BUSCAR ============ -->
+  <section id="tab-buscar">
+    <div class="grid">
+      <div class="card">
+        <h2>¿Qué anuncios quieres ver?</h2>
+        <p class="desc">Ajusta los filtros. El enlace a Meta se actualiza solo.</p>
 
-    <div class="route reveal">
-      <div><span class="dot free">🕵️</span><b>1. Investiga</b><small>AdSpy Meta · gratis</small></div>
-      <div><span class="dot">🎬</span><b>2. Crea el video</b><small>AUREA Studio</small></div>
-      <div><span class="dot">✂️</span><b>3. Edita y subtitula</b><small>Pack Creador</small></div>
-      <div><span class="dot">🚀</span><b>4. Hazlo viral</b><small>REPLICATOR</small></div>
-    </div>
+        <label class="f">Palabra clave</label>
+        <input type="text" id="q" placeholder="ej: sérum facial, curso de inglés, inmobiliaria">
+        <label class="check"><input type="checkbox" id="exact"> Buscar la frase exacta</label>
+        <div class="chips" id="quick" style="margin-top:10px"></div>
 
-    <div class="offers">
-      <div class="offer star reveal">
-        <span class="ribbon">⭐ Recomendado · plazas limitadas</span>
-        <div class="what">Del guion al video</div>
-        <h3>AUREA Studio</h3>
-        <p class="pitch">Pega el guion que te dio AdSpy y AUREA crea el video del anuncio: imágenes, animación, voz en off, música y subtítulos. Listo para Reels, TikTok o WhatsApp.</p>
-        <div class="price"><span class="now">$49</span><span class="was">$97</span><span class="save">50% OFF</span></div>
-        <div class="price-note">Licencia de por vida · precio de lanzamiento para los primeros 10 clientes</div>
-        <ul>
-          <li>Idea, fotos o web de tu cliente → video completo</li>
-          <li>Mismo producto y mismo personaje en todas las escenas</li>
-          <li>Voz en off, música sin derechos y subtítulos karaoke</li>
-          <li>Niveles de IA gratis: sin pagar por cada video</li>
-        </ul>
-        <div class="btns">
-          <a class="btn btn-main wa" data-wa="Hola Raúl, vengo de AdSpy Meta y quiero probar AUREA Studio 3 días gratis" href="https://wa.me/5355081288" target="_blank" rel="noopener">Probar 3 días gratis</a>
-          <a class="btn btn-ghost" href="https://corderorauly-raullg57.github.io/aureastudio/" target="_blank" rel="noopener">Ver cómo funciona →</a>
+        <label class="f">Anunciante (opcional)</label>
+        <input type="text" id="adv" placeholder="ID de página o enlace de sus anuncios en Meta">
+        <div class="hint">Para ver todos los anuncios de una marca, abre su página en la Biblioteca de Meta y pega aquí el enlace.</div>
+
+        <div class="row3">
+          <div><label class="f">País</label><select id="country"></select></div>
+          <div><label class="f">Idioma</label>
+            <select id="lang">
+              <option value="all">Todos</option><option value="es" selected>Español</option><option value="en">Inglés</option><option value="pt">Portugués</option><option value="fr">Francés</option><option value="it">Italiano</option><option value="de">Alemán</option>
+            </select></div>
+          <div><label class="f">Estado</label>
+            <select id="status">
+              <option value="active" selected>Activos ahora</option><option value="all">Activos e inactivos</option><option value="inactive">Solo inactivos</option>
+            </select></div>
+        </div>
+
+        <div class="row">
+          <div><label class="f">Formato</label>
+            <select id="media">
+              <option value="all">Todos</option><option value="image">Imagen</option><option value="video">Video</option><option value="meme">Imagen con texto (meme)</option><option value="none">Solo texto</option>
+            </select></div>
+          <div><label class="f">Orden</label>
+            <select id="sort">
+              <option value="total_impressions" selected>Más impresiones primero</option><option value="relevancy_monthly_grouped">Más relevantes</option>
+            </select></div>
+        </div>
+
+        <label class="f">Plataformas</label>
+        <div class="chips" id="plats">
+          <button class="chip on" data-v="facebook">Facebook</button>
+          <button class="chip on" data-v="instagram">Instagram</button>
+          <button class="chip" data-v="messenger">Messenger</button>
+          <button class="chip" data-v="threads">Threads</button>
+          <button class="chip" data-v="audience_network">Audience Network</button>
+        </div>
+
+        <label class="f">Empezaron a circular</label>
+        <div class="chips" id="period">
+          <button class="chip" data-v="7">Última semana</button>
+          <button class="chip on" data-v="30">Último mes</button>
+          <button class="chip" data-v="90">3 meses</button>
+          <button class="chip" data-v="365">Último año</button>
+          <button class="chip" data-v="all">Cualquier fecha</button>
+        </div>
+        <div class="row">
+          <div><label class="f">Desde</label><input type="date" id="from"></div>
+          <div><label class="f">Hasta</label><input type="date" id="to"></div>
         </div>
       </div>
 
-      <div class="offer reveal">
-        <div class="what">El acabado profesional</div>
-        <h3>Pack Creador de Videos</h3>
-        <p class="pitch">Edita, corta y une tus clips, y ponles subtítulos virales estilo Reels y TikTok. Todo en tu PC, sin subir tus videos a ningún sitio.</p>
-        <div class="price"><span class="now">$15</span><span class="was">$21</span><span class="save">Ahorras $6</span></div>
-        <div class="price-note">Pago único · Editor RCG V8.2 + Subtitle Studio Pro</div>
-        <ul>
-          <li>Editor de video con línea de tiempo y transiciones</li>
-          <li>Subtítulos automáticos con IA, palabra por palabra</li>
-          <li>Estilos Hormozi, TikTok, Reels, karaoke y neón</li>
-          <li>Exporta en 9:16, 1:1 o 16:9</li>
-        </ul>
-        <div class="btns">
-          <a class="btn btn-wa wa" data-wa="Hola Raúl, vengo de AdSpy Meta y quiero el Pack Creador de Videos ($15)" href="https://wa.me/5355081288" target="_blank" rel="noopener">Lo quiero por $15</a>
-          <a class="btn btn-ghost" href="https://corderorauly-raullg57.github.io/Subtitel_Studio_Pro/" target="_blank" rel="noopener">Probar 3 días gratis →</a>
+      <div>
+        <div class="card">
+          <h2>Ver resultados</h2>
+          <a class="btn big" id="openBtn" href="#" target="_blank" rel="noopener">↗ Abrir en la Biblioteca de Meta</a>
+          <div class="btns" style="margin-top:8px">
+            <button class="btn ghost small" id="copyUrlBtn">⧉ Copiar enlace</button>
+            <button class="btn ghost small" id="resetBtn">↺ Limpiar filtros</button>
+          </div>
+          <div class="urlbox" id="urlBox"></div>
+          <ol class="steps">
+            <li><b>Abre los resultados</b> en Meta con el botón azul.</li>
+            <li>En el anuncio que te guste, toca <b>Ver detalles del anuncio</b> y copia el texto (o solo su enlace, si activaste la lectura automática).</li>
+            <li>Pégalo en <b>Analizar</b> para puntuarlo y obtener versiones mejores.</li>
+          </ol>
+          <button class="btn teal" id="goAnalyze" style="width:100%;justify-content:center">🧠 Ir a Analizar</button>
         </div>
-      </div>
 
-      <div class="offer reveal">
-        <div class="what">Para tu contenido orgánico</div>
-        <h3>REPLICATOR</h3>
-        <p class="pitch">Lo mismo que AdSpy hace con anuncios, REPLICATOR lo hace con videos virales de TikTok, YouTube e Instagram: desmonta su estructura y escribe tu guion con el mismo ADN.</p>
-        <div class="price"><span class="now">$29</span><span class="was" style="text-decoration:none">o $7/mes</span></div>
-        <div class="price-note">De por vida · o plan mensual</div>
-        <ul>
-          <li>Guion, pausas y cortes medidos del video original</li>
-          <li>18 disparadores psicológicos con su momento exacto</li>
-          <li>10 ideas nuevas con la misma estructura</li>
-          <li>Prompts listos para ChatGPT, Gemini o Veo</li>
-        </ul>
-        <div class="btns">
-          <a class="btn btn-ghost" href="https://corderorauly-raullg57.github.io/replicator/" target="_blank" rel="noopener">Probar 3 días gratis →</a>
-          <a class="btn btn-wa wa" data-wa="Hola Raúl, vengo de AdSpy Meta y quiero REPLICATOR" href="https://wa.me/5355081288" target="_blank" rel="noopener">Comprar por WhatsApp</a>
+        <div class="card" style="margin-top:16px">
+          <h2>Búsquedas recientes</h2>
+          <div class="list" id="hist"></div>
         </div>
       </div>
     </div>
+  </section>
 
-    <p class="pay reveal">Todas con <b>prueba de 3 días</b> · Pagas por <b>QvaPay</b>, <b>Transfermóvil (CUP)</b> o <b>USD</b> · Sin suscripciones obligatorias</p>
+  <!-- ============ ANALIZAR ============ -->
+  <section id="tab-analizar" class="hidden">
+    <div class="grid">
+      <div class="card">
+        <h2>Pega el anuncio</h2>
+        <p class="desc">Pega el texto o sube el video del anuncio. Cuanto más completes, mejor el análisis.</p>
 
-    <div class="extra reveal">
-      <p>🎁 <b>Otro regalo para tus anuncios:</b> VoiceOFF Studio pone la voz en off en español, gratis y sin internet.</p>
-      <a class="btn btn-ghost btn-sm" href="https://corderorauly-raullg57.github.io/voiceoffstudio/" target="_blank" rel="noopener">Conseguir VoiceOFF gratis →</a>
+        <label class="f">Enlace del anuncio en Meta</label>
+        <div class="inl">
+          <input type="url" id="aLink" placeholder="https://www.facebook.com/ads/library/?id=…">
+          <button class="btn teal" id="fetchAdBtn" title="Rellenar el anuncio automáticamente">⚡ Traer</button>
+        </div>
+        <div class="hint" id="fetchHint">Opcional. Con la lectura automática activada, pega el enlace y pulsa <b>Traer</b>. Si no, copia el texto a mano.</div>
+        <details id="cfgBox">
+          <summary>⚙️ Lectura automática (opcional)</summary>
+          <div class="hint" style="margin-top:8px">Usa el servicio <b>Apify</b>, que trae el texto, titular, botón e imagen del anuncio. Crea una cuenta en apify.com (incluye saldo gratis al mes), copia tu <b>clave API</b> (Settings → API &amp; Integrations) y pégala aquí. Se guarda solo en este dispositivo.</div>
+          <label class="f">Clave API de Apify</label>
+          <input type="text" id="cfgToken" placeholder="apify_api_…" autocomplete="off" spellcheck="false" style="-webkit-text-security:disc">
+          <label class="f">Lector (avanzado, no hace falta cambiarlo)</label>
+          <input type="text" id="cfgActor" spellcheck="false">
+          <div class="btns">
+            <button class="btn small" id="cfgSave">Guardar</button>
+            <button class="btn ghost small" id="cfgDel">Quitar clave</button>
+          </div>
+        </details>
+
+        <label class="f">Texto principal</label>
+        <textarea id="aText" placeholder="Pega aquí el texto del anuncio…"></textarea>
+        <div class="row">
+          <div><label class="f">Marca</label><input type="text" id="aBrand" placeholder="ej: GlowLab"></div>
+          <div><label class="f">Titular</label><input type="text" id="aHead"></div>
+        </div>
+        <div class="row">
+          <div><label class="f">Botón (CTA)</label>
+            <select id="aCta"><option>Comprar ahora</option><option>Más información</option><option>Enviar mensaje</option><option>Enviar mensaje de WhatsApp</option><option>Registrarse</option><option>Reservar</option><option>Descargar</option><option>Contactar</option></select></div>
+          <div><label class="f">Objetivo</label>
+            <select id="aObj"><option>Ventas</option><option>Mensajes / WhatsApp</option><option>Captar contactos</option><option>Tráfico a la web</option><option>Alcance / seguidores</option></select></div>
+        </div>
+        <label class="f">Tono de las nuevas versiones</label>
+        <select id="aTone"><option>Persuasivo y directo</option><option>Cercano, como un cliente real</option><option>Premium y elegante</option><option>Urgente</option><option>Divertido</option></select>
+        <label class="f">Imagen o video del anuncio (opcional)</label>
+        <div class="drop" id="mediaDrop">
+          <div><b>Arrastra aquí</b> la captura o el video del anuncio</div>
+          <div class="btns" style="justify-content:center;margin-top:8px">
+            <label class="btn ghost small">🖼 Elegir imagen<input type="file" id="aImg" accept="image/*" hidden></label>
+            <label class="btn ghost small">🎬 Elegir video<input type="file" id="aVid" accept="video/*" hidden></label>
+          </div>
+        </div>
+        <a id="vidDl" class="btn ghost small hidden" target="_blank" rel="noopener" style="margin-top:8px">⬇ Descargar el video del anuncio</a>
+        <img id="aImgPrev" class="imgPrev hidden" alt="">
+        <div id="vidBox" class="hidden">
+          <video id="vidPrev" class="imgPrev" controls muted playsinline></video>
+          <div class="vstats" id="vidStats"></div>
+          <div class="frames" id="vidFrames"></div>
+          <label class="f">Lo que se dice en el video (opcional)</label>
+          <textarea id="aSpeech" placeholder="Pega aquí la locución o los subtítulos del video…" style="min-height:70px"></textarea>
+          <div class="hint">La IA ve los fotogramas pero no escucha el audio. Si el video tiene voz, pega aquí lo que dice para un análisis completo.</div>
+          <div class="btns"><button class="btn ghost small" id="vidRemove">Quitar video</button></div>
+        </div>
+
+        <div class="btns">
+          <button class="btn" id="analyzeBtn">🧠 Analizar y mejorar</button>
+          <button class="btn teal" id="rewriteBtn">✍️ 3 versiones nuevas</button>
+          <button class="btn ghost" id="clearBtn">Limpiar</button>
+        </div>
+
+        <details id="aiCfgBox">
+          <summary>🤖 Motor de IA</summary>
+          <label class="f">Usar</label>
+          <select id="aiEngine">
+            <option value="ollama">Ollama — en tu PC, gratis y sin internet</option>
+            <option value="openai">OpenAI — por internet, con tu clave</option>
+          </select>
+          <div id="ollamaCfg">
+            <label class="f">Modelo instalado</label>
+            <div class="inl">
+              <select id="olModel"><option value="">— pulsa Buscar —</option></select>
+              <button class="btn ghost small" id="olRefresh">↻ Buscar</button>
+            </div>
+            <label class="f">Dirección de Ollama</label>
+            <input type="text" id="olUrl" spellcheck="false">
+            <div class="hint" id="olVision"></div>
+            <div class="hint" id="olHint">Ollama debe estar abierto. Para analizar imágenes usa un modelo con visión (por ejemplo <b>gemma3</b> o <b>llama3.2-vision</b>).</div>
+          </div>
+          <div id="openaiCfg" class="hidden">
+            <label class="f">Clave API de OpenAI</label>
+            <input type="text" id="oaKey" placeholder="sk-…" autocomplete="off" spellcheck="false" style="-webkit-text-security:disc">
+            <label class="f">Modelo</label>
+            <input type="text" id="oaModel" list="oaModels" spellcheck="false" placeholder="ej: gpt-4o-mini">
+            <datalist id="oaModels"></datalist>
+            <div class="hint">La clave se guarda solo en este dispositivo. Pulsa Probar para cargar la lista de modelos de tu cuenta.</div>
+          </div>
+          <div class="btns">
+            <button class="btn small" id="aiCfgSave">Guardar</button>
+            <button class="btn ghost small" id="aiTest">Probar conexión</button>
+          </div>
+        </details>
+      </div>
+
+      <div class="card">
+        <h2>Resultado</h2>
+        <div class="scores" id="scores">
+          <div class="score"><b>Gancho</b><span id="s-gancho">—</span><div class="bar"><i id="b-gancho"></i></div></div>
+          <div class="score"><b>Oferta</b><span id="s-oferta">—</span><div class="bar"><i id="b-oferta"></i></div></div>
+          <div class="score"><b>Confianza</b><span id="s-confianza">—</span><div class="bar"><i id="b-confianza"></i></div></div>
+          <div class="score"><b>CTA</b><span id="s-cta">—</span><div class="bar"><i id="b-cta"></i></div></div>
+          <div class="score main"><b>Global</b><span id="s-global">—</span><div class="bar"><i id="b-global"></i></div></div>
+        </div>
+        <div class="status" id="aiStatus">Pega un anuncio y pulsa <b>Analizar y mejorar</b>.</div>
+        <div class="out hidden" id="aiOut"></div>
+        <div class="btns">
+          <button class="btn" id="saveBtn">💾 Guardar</button>
+          <button class="btn ghost" id="copyOutBtn">⧉ Copiar</button>
+          <button class="btn ghost" id="dlOutBtn">⬇ Descargar</button>
+        </div>
+        <div class="promo hidden" id="aureaPromo">
+          <div><b>🎬 ¿Te gustó la versión mejorada?</b><br><span>Conviértela en un anuncio en video con narración y subtítulos en <b>AUREA Studio</b>.</span></div>
+          <button class="btn" id="aureaBtn">Crear el video →</button>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- REQUISITOS -->
-<section>
-  <div class="container">
-    <div class="head reveal">
-      <span class="tag cyan">Antes de empezar</span>
-      <h2>Lo que necesitas (y nada más)</h2>
+  <!-- ============ GUARDADOS ============ -->
+  <section id="tab-guardados" class="hidden">
+    <div class="card">
+      <h2>Anuncios guardados</h2>
+      <p class="desc">Se guardan en este dispositivo. Ábrelos para volver a analizarlos o expórtalos a Excel.</p>
+      <div class="row">
+        <div><label class="f">Buscar</label><input type="text" id="libQ" placeholder="marca, palabra del texto…"></div>
+        <div><label class="f">Guardados en</label>
+          <select id="libPeriod"><option value="0">Cualquier fecha</option><option value="7">Última semana</option><option value="30">Último mes</option><option value="365">Último año</option></select></div>
+      </div>
+      <div class="btns">
+        <button class="btn ghost small" id="csvBtn">⬇ Exportar a Excel (CSV)</button>
+        <button class="btn ghost small" id="delAllBtn">🗑 Borrar todo</button>
+      </div>
+      <div style="overflow:auto;margin-top:10px">
+        <table><thead><tr><th>Fecha</th><th>Anuncio</th><th>Nota</th><th></th></tr></thead><tbody id="libBody"></tbody></table>
+      </div>
     </div>
-    <div class="req">
-      <div class="card reveal"><div class="ico">🌐</div><h3>Chrome o Edge</h3><p>AdSpy se abre en el navegador, en línea o descargado en tu PC. No hay nada que instalar.</p></div>
-      <div class="card reveal"><div class="ico">🦙</div><h3>Ollama, la IA gratis</h3><p>Se instala una vez y la IA trabaja en tu PC, sin internet y sin pagar por uso. Recomendado: <code>gemma3:4b</code>, que también ve imágenes y videos.</p></div>
-      <div class="card reveal"><div class="ico">🔑</div><h3>O tu clave de OpenAI</h3><p>Si tu PC es modesta o prefieres la nube, pega tu clave de OpenAI y listo. Se guarda solo en tu equipo.</p></div>
-    </div>
-    <p class="pay reveal">El tutorial completo viene incluido. ¿Te trabas configurándolo? <a class="wa" data-wa="Hola Raúl, vengo de AdSpy Meta y necesito ayuda para configurarla" href="https://wa.me/5355081288" target="_blank" rel="noopener" style="color:#7DD3FC;text-decoration:underline">Escríbeme y te ayudo</a>.</p>
-  </div>
-</section>
+  </section>
 
-<!-- FAQ -->
-<section id="faq" class="setup">
-  <div class="container">
-    <div class="head reveal"><h2>Preguntas frecuentes</h2></div>
-    <div class="faq">
-      <details class="reveal"><summary>¿De verdad es gratis?</summary><p>Sí. Sin pruebas que caducan, sin registro y sin límite de análisis. Con Ollama, la IA corre en tu PC y no pagas nada por usarla.</p></details>
-      <details class="reveal"><summary>¿Funciona sin internet?</summary><p>El análisis con IA, sí: con Ollama todo se procesa en tu PC. Para buscar anuncios en la Biblioteca de Meta sí necesitas conexión, porque los anuncios están allí.</p></details>
-      <details class="reveal"><summary>¿Qué PC necesito?</summary><p>Para la IA local con <code>gemma3:4b</code> se recomiendan al menos 8 GB de RAM. Si tu PC no llega, usa la opción de OpenAI.</p></details>
-      <details class="reveal"><summary>¿Puede analizar videos?</summary><p>Sí. Sube el video del anuncio o una grabación de pantalla y AdSpy saca los fotogramas clave, mide el ritmo y propone un guion nuevo. La IA no escucha el audio: si el video tiene voz, pega lo que dice para un análisis completo.</p></details>
-      <details class="reveal"><summary>¿Es legal ver los anuncios de otros?</summary><p>Sí. La Biblioteca de anuncios de Meta es pública y la creó Meta para que cualquiera pueda consultarla. Úsala para inspirarte y aprender: no copies textos ni imágenes de otros tal cual.</p></details>
-      <details class="reveal"><summary>¿Está afiliado a Meta?</summary><p>No. AdSpy Meta es una herramienta independiente de Herramix que usa la Biblioteca pública de anuncios de Meta.</p></details>
-      <details class="reveal"><summary>¿Y si me trabo configurándolo?</summary><p>Escríbeme por WhatsApp al <b>+53 5508 1288</b> y te acompaño paso a paso.</p></details>
-    </div>
+  <div class="footer">
+    Una herramienta gratuita de <a href="https://corderorauly-raullg57.github.io/Herramix/" target="_blank" rel="noopener">Herramix</a> ·
+    ¿Necesitas ayuda para configurarla? <a href="https://wa.me/5355081288?text=Hola%20Ra%C3%BAl%2C%20necesito%20ayuda%20con%20AdSpy%20Meta" target="_blank" rel="noopener">Escríbeme por WhatsApp</a><br>
+    Datos de la Biblioteca pública de Meta · No afiliado a Meta · El análisis con IA es orientativo · Inspírate, no copies.
   </div>
-</section>
+</div>
 
-<!-- FINAL -->
-<section class="final">
-  <div class="container reveal">
-    <h2>Tu próximo anuncio no tiene que ser <span class="grad">una apuesta</span></h2>
-    <p class="lead" style="margin:0 auto">Mira qué funciona, entiende por qué y lanza tu versión mejorada. Hoy, gratis.</p>
-    <div class="ctas">
-      <a href="app.html" class="btn btn-main">🔎 Abrir AdSpy gratis</a>
-      <a href="AdSpy-Meta.zip" class="btn btn-ghost">💻 Descargar para Windows</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    AdSpy Meta es una herramienta gratuita de <a href="https://corderorauly-raullg57.github.io/Herramix/" target="_blank" rel="noopener">Herramix</a> · Más de 20 herramientas gratis y de pago único<br>
-    AdSpy Meta usa la Biblioteca pública de anuncios de Meta y no está afiliado a Meta Platforms, Facebook ni Instagram.<br>
-    Los ejemplos de esta página son ilustrativos · El análisis con IA es orientativo · © Herramix
-  </div>
-</footer>
-
-<a class="wa-float wa" data-wa="Hola Raúl, vengo de la página de AdSpy Meta" href="https://wa.me/5355081288" target="_blank" rel="noopener" aria-label="Escríbeme por WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.75-.72 2-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.04 21.5h-.01a9.45 9.45 0 01-4.82-1.32l-.35-.21-3.58.94.96-3.49-.23-.36a9.43 9.43 0 01-1.45-5.03c0-5.22 4.25-9.47 9.48-9.47 2.53 0 4.91.99 6.7 2.78a9.4 9.4 0 012.77 6.7c0 5.22-4.25 9.46-9.47 9.46zm8.06-17.53A11.33 11.33 0 0012.04.63C5.76.63.65 5.74.65 12.02c0 2 .52 3.96 1.52 5.69L.55 23.6l6.04-1.58a11.36 11.36 0 005.44 1.39h.01c6.28 0 11.39-5.11 11.39-11.39 0-3.04-1.19-5.9-3.33-8.05z"/></svg>
-</a>
 
 <script>
-// WhatsApp: cada botón lleva su mensaje (así sabes de qué página y producto viene cada cliente)
-document.querySelectorAll('a.wa[data-wa]').forEach(function(a){
-  a.href='https://wa.me/5355081288?text='+encodeURIComponent(a.getAttribute('data-wa'));
-});
-// Aparición suave al hacer scroll
-(function(){
-  var els=document.querySelectorAll('.reveal');
-  if(!('IntersectionObserver' in window)){ els.forEach(function(e){ e.classList.add('in'); }); return; }
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
-  },{threshold:.12});
-  els.forEach(function(e){ io.observe(e); });
-  var mock=document.getElementById('mock');
-  new IntersectionObserver(function(en,o){ if(en[0].isIntersecting){ mock.classList.add('on'); o.disconnect(); } },{threshold:.4}).observe(mock);
+/* ---------- utilidades ---------- */
+var $ = function(id){ return document.getElementById(id); };
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function isoDay(d){ return new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10); }
+function onChips(id){ return Array.prototype.map.call(document.querySelectorAll('#'+id+' .chip.on'), function(c){ return c.dataset.v; }); }
+function flash(btn,txt){ var o=btn.textContent; btn.textContent=txt; setTimeout(function(){ btn.textContent=o; },1500); }
+async function copyText(t){
+  try{ await navigator.clipboard.writeText(t); return true; }
+  catch(e){ var a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select(); var ok=document.execCommand('copy'); a.remove(); return ok; }
+}
+function download(name,content,type){
+  var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content],{type:type})); a.download=name; a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); },2000);
+}
+
+/* ---------- almacenamiento local (en este navegador) ---------- */
+function cfgGet(k){ try{ return localStorage.getItem('adspy:'+k)||''; }catch(e){ return ''; } }
+function cfgSet(k,v){ try{ v?localStorage.setItem('adspy:'+k,v):localStorage.removeItem('adspy:'+k); }catch(e){} }
+function store(name){
+  var key='adspy:'+name;
+  function read(){ try{ return JSON.parse(localStorage.getItem(key)||'{}'); }catch(e){ return {}; } }
+  function write(o){ try{ localStorage.setItem(key,JSON.stringify(o)); }catch(e){} }
+  return {
+    set: async function(k,v){ var o=read(); o[k]=v; write(o); },
+    entries: async function(){ var o=read(); return Object.keys(o).map(function(k){ return [k,o[k]]; }); },
+    keys: async function(){ return Object.keys(read()); },
+    delete: async function(k){ var o=read(); delete o[k]; write(o); },
+    deleteMany: async function(ks){ var o=read(); ks.forEach(function(k){ delete o[k]; }); write(o); }
+  };
+}
+var DB_SEARCH = store('adspy_searches');
+var DB_ADS = store('adspy_ads');
+
+/* ---------- pestañas ---------- */
+function goTab(t){
+  document.querySelectorAll('#tabs button').forEach(function(b){ b.classList.toggle('on', b.dataset.tab===t); });
+  ['buscar','analizar','guardados'].forEach(function(x){ $('tab-'+x).classList.toggle('hidden', x!==t); });
+  if(t==='guardados') loadLibrary();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('#tabs button').forEach(function(b){ b.addEventListener('click', function(){ goTab(b.dataset.tab); }); });
+
+/* =========================================================
+   BUSCAR
+   ========================================================= */
+var COUNTRIES=[["ALL","🌍 Todos"],["CU","Cuba"],["US","Estados Unidos"],["MX","México"],["ES","España"],["CO","Colombia"],["AR","Argentina"],["CL","Chile"],["PE","Perú"],["EC","Ecuador"],["DO","Rep. Dominicana"],["CR","Costa Rica"],["PA","Panamá"],["GT","Guatemala"],["UY","Uruguay"],["BR","Brasil"],["PT","Portugal"],["GB","Reino Unido"],["FR","Francia"],["IT","Italia"],["DE","Alemania"]];
+var QUICK=["envíos a Cuba","combos Cuba","envío gratis","pago contra entrega","curso online","clínica dental","inmobiliaria","restaurante","gimnasio","skincare","agencia de viajes","escríbenos por WhatsApp"];
+
+(function initSearch(){
+  var c=$('country');
+  COUNTRIES.forEach(function(x){ var o=document.createElement('option'); o.value=x[0]; o.textContent=x[1]; c.appendChild(o); });
+  var qk=$('quick');
+  QUICK.forEach(function(k){
+    var b=document.createElement('button'); b.className='chip'; b.textContent=k;
+    b.addEventListener('click', function(){ $('q').value=k; updateUrl(); });
+    qk.appendChild(b);
+  });
+  document.querySelectorAll('#plats .chip').forEach(function(ch){
+    ch.addEventListener('click', function(){ ch.classList.toggle('on'); updateUrl(); });
+  });
+  document.querySelectorAll('#period .chip').forEach(function(ch){
+    ch.addEventListener('click', function(){
+      document.querySelectorAll('#period .chip').forEach(function(x){ x.classList.remove('on'); });
+      ch.classList.add('on'); setPeriod(ch.dataset.v); updateUrl();
+    });
+  });
+  ['from','to'].forEach(function(id){
+    $(id).addEventListener('change', function(){ document.querySelectorAll('#period .chip').forEach(function(x){ x.classList.remove('on'); }); updateUrl(); });
+  });
+  ['q','adv'].forEach(function(id){ $(id).addEventListener('input', updateUrl); });
+  ['exact','country','lang','status','media','sort'].forEach(function(id){ $(id).addEventListener('change', updateUrl); });
+  setPeriod('30');
 })();
+
+function setPeriod(v){
+  if(v==='all'){ $('from').value=''; $('to').value=''; return; }
+  var to=new Date(), from=new Date(); from.setDate(from.getDate()-parseInt(v,10));
+  $('from').value=isoDay(from); $('to').value=isoDay(to);
+}
+
+// Acepta un ID numérico o un enlace de Meta que contenga view_all_page_id
+function pageIdFrom(s){
+  s=(s||'').trim(); if(!s) return '';
+  var m=s.match(/view_all_page_id=(\d+)/) || s.match(/^(\d{5,})$/);
+  return m ? m[1] : '';
+}
+
+function buildMetaUrl(){
+  var p=new URLSearchParams();
+  p.set('active_status',$('status').value);
+  p.set('ad_type','all');
+  p.set('country',$('country').value);
+  if($('lang').value!=='all') p.set('content_languages[0]',$('lang').value);
+  var plats=onChips('plats');
+  if(plats.length && plats.length<5) plats.forEach(function(v,i){ p.set('publisher_platforms['+i+']',v); });
+  p.set('media_type',$('media').value);
+
+  var pageId=pageIdFrom($('adv').value);
+  var q=$('q').value.trim();
+  if(!q && !pageId) q=$('adv').value.trim(); // nombre de marca como palabra clave
+  if(pageId) p.set('view_all_page_id',pageId);
+  if(q){ p.set('q',q); p.set('search_type',$('exact').checked?'keyword_exact_phrase':'keyword_unordered'); }
+  else if(pageId){ p.set('search_type','page'); }
+
+  if($('from').value) p.set('start_date[min]',$('from').value);
+  if($('to').value) p.set('start_date[max]',$('to').value);
+  p.set('sort_data[direction]','desc');
+  p.set('sort_data[mode]',$('sort').value);
+  return 'https://www.facebook.com/ads/library/?'+p.toString();
+}
+
+function updateUrl(){
+  var u=buildMetaUrl();
+  $('openBtn').href=u;
+  $('urlBox').textContent=u;
+}
+
+$('openBtn').addEventListener('click', function(){ updateUrl(); saveSearch(); });
+$('copyUrlBtn').addEventListener('click', async function(){ updateUrl(); if(await copyText(buildMetaUrl())) flash(this,'✓ Copiado'); saveSearch(); });
+$('goAnalyze').addEventListener('click', function(){ goTab('analizar'); $('aText').focus(); });
+$('resetBtn').addEventListener('click', function(){
+  $('q').value=''; $('adv').value=''; $('exact').checked=false; $('country').value='ALL'; $('lang').value='es'; $('status').value='active'; $('media').value='all'; $('sort').value='total_impressions';
+  document.querySelectorAll('#plats .chip').forEach(function(c){ c.classList.toggle('on', c.dataset.v==='facebook'||c.dataset.v==='instagram'); });
+  document.querySelectorAll('#period .chip').forEach(function(c){ c.classList.toggle('on', c.dataset.v==='30'); });
+  setPeriod('30'); updateUrl();
+});
+
+/* historial */
+function snapshot(){
+  return {q:$('q').value, adv:$('adv').value, exact:$('exact').checked, country:$('country').value, lang:$('lang').value, status:$('status').value, media:$('media').value, sort:$('sort').value, plats:onChips('plats'), period:onChips('period')[0]||'', from:$('from').value, to:$('to').value};
+}
+function restore(s){
+  $('q').value=s.q||''; $('adv').value=s.adv||''; $('exact').checked=!!s.exact;
+  ['country','lang','status','media','sort'].forEach(function(k){ if(s[k]) $(k).value=s[k]; });
+  document.querySelectorAll('#plats .chip').forEach(function(c){ c.classList.toggle('on', (s.plats||[]).indexOf(c.dataset.v)>=0); });
+  document.querySelectorAll('#period .chip').forEach(function(c){ c.classList.toggle('on', c.dataset.v===s.period); });
+  if(s.period) setPeriod(s.period); else { $('from').value=s.from||''; $('to').value=s.to||''; }
+  updateUrl();
+}
+async function saveSearch(){
+  var s=snapshot(); if(!s.q.trim() && !s.adv.trim()) return;
+  var sig=JSON.stringify(s);
+  try{
+    var all=await DB_SEARCH.entries();
+    var dup=all.filter(function(e){ return e[1] && e[1].sig===sig; }).map(function(e){ return e[0]; });
+    if(dup.length) await DB_SEARCH.deleteMany(dup);
+    s.sig=sig; s.ts=Date.now();
+    await DB_SEARCH.set('s'+s.ts, s);
+    all=await DB_SEARCH.entries(); all.sort(function(a,b){ return b[1].ts-a[1].ts; });
+    if(all.length>15) await DB_SEARCH.deleteMany(all.slice(15).map(function(e){ return e[0]; }));
+  }catch(e){}
+  renderHist();
+}
+async function renderHist(){
+  var c=$('hist');
+  try{
+    var all=await DB_SEARCH.entries(); all.sort(function(a,b){ return b[1].ts-a[1].ts; });
+    if(!all.length){ c.innerHTML='<div class="empty">Aún no hay búsquedas.</div>'; return; }
+    c.innerHTML='';
+    all.slice(0,8).forEach(function(e){
+      var s=e[1], d=document.createElement('div'); d.className='item';
+      var country=(COUNTRIES.filter(function(x){ return x[0]===s.country; })[0]||['',s.country])[1];
+      d.innerHTML='<span>'+esc(s.q||s.adv)+' <small>· '+esc(country)+'</small></span>';
+      var b=document.createElement('button'); b.className='btn ghost small'; b.textContent='Usar';
+      b.addEventListener('click', function(){ restore(s); });
+      d.appendChild(b); c.appendChild(d);
+    });
+  }catch(err){ c.innerHTML='<div class="empty">Historial no disponible.</div>'; }
+}
+
+/* =========================================================
+   ANALIZAR (IA)
+   ========================================================= */
+var imgFile=null, lastResult='', lastScores={};
+var KEYS=['gancho','oferta','confianza','cta','global'];
+
+/* ---------- Motor de IA: Ollama (local) u OpenAI ---------- */
+var AI_DEFAULT_URL='http://localhost:11434';
+var WA_HELP='https://wa.me/5355081288?text='+encodeURIComponent('Hola Raúl, necesito ayuda con AdSpy Meta');
+var AUREA_URL='https://corderorauly-raullg57.github.io/aureastudio/';
+function aiCfg(){
+  return { engine:cfgGet('aiEngine')||'ollama', olUrl:(cfgGet('olUrl')||AI_DEFAULT_URL).replace(/\/+$/,''), olModel:cfgGet('olModel'),
+           oaKey:cfgGet('oaKey'), oaModel:cfgGet('oaModel')||'gpt-4o-mini' };
+}
+function aiLabel(c){ return c.engine==='openai' ? 'OpenAI · '+c.oaModel : 'Ollama · '+(c.olModel||'sin modelo'); }
+function paintAiCfg(){
+  var c=aiCfg();
+  $('aiEngine').value=c.engine; $('olUrl').value=c.olUrl; $('oaKey').value=c.oaKey; $('oaModel').value=c.oaModel;
+  if(c.olModel && !Array.prototype.some.call($('olModel').options,function(o){ return o.value===c.olModel; })){
+    var o=document.createElement('option'); o.value=o.textContent=c.olModel; $('olModel').appendChild(o);
+  }
+  $('olModel').value=c.olModel;
+  showEngine();
+  var ready = c.engine==='openai' ? !!c.oaKey : !!c.olModel;
+  $('aiCfgBox').querySelector('summary').innerHTML='🤖 Motor de IA <span class="badge '+(ready?'on':'off')+'">'+esc(ready?aiLabel(c):'SIN CONFIGURAR')+'</span>';
+}
+function showEngine(){ var oa=$('aiEngine').value==='openai'; $('openaiCfg').classList.toggle('hidden',!oa); $('ollamaCfg').classList.toggle('hidden',oa); }
+$('aiEngine').addEventListener('change', showEngine);
+
+function ollamaHelp(url){
+  return 'No se pudo conectar con Ollama en <b>'+esc(url)+'</b>. Comprueba que Ollama está abierto (icono de la llama junto al reloj). '+
+    'Si el navegador pregunta si permites acceder a otras apps o a la red local de este dispositivo, pulsa <b>Permitir</b>. '+
+    'Si sigue fallando, cierra Ollama, abre <b>Símbolo del sistema</b> y escribe: <code>setx OLLAMA_ORIGINS "*"</code>, y vuelve a abrir Ollama. '+
+    '¿Sigues con problemas? <a href="'+WA_HELP+'" target="_blank" rel="noopener" style="color:var(--acc2)">Escríbeme por WhatsApp</a>.';
+}
+async function ollamaModels(url){
+  var r=await fetch(url+'/api/tags'); if(!r.ok) throw new Error('HTTP '+r.status);
+  return ((await r.json()).models||[]).map(function(m){ return m.name; });
+}
+var olCapsCache={};
+async function olCaps(url, model){
+  if(!model) return null;
+  var k=url+'|'+model; if(k in olCapsCache) return olCapsCache[k];
+  try{
+    var r=await fetch(url+'/api/show',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:model})});
+    var j=await r.json(); olCapsCache[k]=Array.isArray(j.capabilities)?j.capabilities:null;
+  }catch(e){ olCapsCache[k]=null; }
+  return olCapsCache[k];
+}
+async function paintVision(){
+  var url=($('olUrl').value.trim()||AI_DEFAULT_URL).replace(/\/+$/,''), m=$('olModel').value, el=$('olVision');
+  if(!m){ el.innerHTML=''; return; }
+  var caps=await olCaps(url,m);
+  if(!caps) el.innerHTML='';
+  else if(caps.indexOf('vision')>=0) el.innerHTML='👁 <b>'+esc(m)+'</b> lee imágenes y videos.';
+  else el.innerHTML='📝 <b>'+esc(m)+'</b> solo lee texto: para imágenes y videos elige un modelo con visión (por ejemplo <b>gemma3:4b</b>).';
+}
+$('olModel').addEventListener('change', paintVision);
+async function refreshOllama(silent){
+  var url=($('olUrl').value.trim()||AI_DEFAULT_URL).replace(/\/+$/,''), sel=$('olModel'), keep=sel.value||aiCfg().olModel;
+  try{
+    var names=await ollamaModels(url);
+    sel.innerHTML='';
+    if(!names.length){ sel.innerHTML='<option value="">(no hay modelos)</option>'; $('olHint').innerHTML='Ollama funciona pero no tiene modelos. En Símbolo del sistema escribe: <code>ollama pull gemma3:4b</code>'; return false; }
+    names.forEach(function(n){ var o=document.createElement('option'); o.value=o.textContent=n; sel.appendChild(o); });
+    sel.value = names.indexOf(keep)>=0 ? keep : names[0];
+    $('olHint').innerHTML='✅ Conectado. '+names.length+' modelo(s) instalado(s).';
+    paintVision();
+    return true;
+  }catch(e){ if(!silent) $('olHint').innerHTML='❌ '+ollamaHelp(url); return false; }
+}
+$('olRefresh').addEventListener('click', function(){ refreshOllama(false); });
+
+function saveAiCfg(){
+  cfgSet('aiEngine',$('aiEngine').value); cfgSet('olUrl',$('olUrl').value.trim()===AI_DEFAULT_URL?'':$('olUrl').value.trim());
+  cfgSet('olModel',$('olModel').value); cfgSet('oaKey',$('oaKey').value.trim()); cfgSet('oaModel',$('oaModel').value.trim());
+  paintAiCfg();
+}
+$('aiCfgSave').addEventListener('click', function(){ saveAiCfg(); flash(this,'✓ Guardado'); });
+$('aiTest').addEventListener('click', async function(){
+  var btn=this; btn.disabled=true;
+  if($('aiEngine').value==='ollama'){ if(await refreshOllama(false)) saveAiCfg(); }
+  else{
+    var key=$('oaKey').value.trim();
+    try{
+      var r=await fetch('https://api.openai.com/v1/models',{headers:{Authorization:'Bearer '+key}});
+      if(r.status===401) throw new Error('la clave no es válida');
+      if(!r.ok) throw new Error('error '+r.status);
+      var ids=((await r.json()).data||[]).map(function(m){ return m.id; }).filter(function(id){ return /^(gpt|o\d|chatgpt)/.test(id) && !/audio|realtime|tts|transcribe|image|search/.test(id); }).sort();
+      $('oaModels').innerHTML=ids.map(function(id){ return '<option value="'+esc(id)+'">'; }).join('');
+      saveAiCfg(); flash(btn,'✓ Conectado');
+    }catch(e){ alert('OpenAI: '+((e&&e.message)||e)+'. Revisa la clave y que la VPN esté activa.'); }
+  }
+  btn.disabled=false;
+});
+
+// Convierte cualquier imagen a JPEG de tamaño razonable (evita fallos con capturas enormes o formatos raros)
+async function prepImage(blob){
+  try{
+    var bmp=await createImageBitmap(blob), max=1280, sc=Math.min(1, max/Math.max(bmp.width,bmp.height));
+    if(sc===1 && /jpeg/.test(blob.type)) return blob;
+    var c=document.createElement('canvas'); c.width=Math.round(bmp.width*sc); c.height=Math.round(bmp.height*sc);
+    var g=c.getContext('2d'); g.fillStyle='#fff'; g.fillRect(0,0,c.width,c.height); g.drawImage(bmp,0,0,c.width,c.height);
+    return await new Promise(function(ok){ c.toBlob(function(b){ ok(b||blob); },'image/jpeg',0.85); });
+  }catch(e){ return blob; }
+}
+function fileToB64(f){ return new Promise(function(ok,fail){ var r=new FileReader(); r.onload=function(){ ok(String(r.result).split(',')[1]); }; r.onerror=fail; r.readAsDataURL(f); }); }
+
+// Lee una respuesta en streaming línea a línea
+async function readLines(resp, onLine){
+  var reader=resp.body.getReader(), dec=new TextDecoder(), buf='';
+  for(;;){
+    var x=await reader.read(); if(x.done) break;
+    buf+=dec.decode(x.value,{stream:true});
+    var lines=buf.split('\n'); buf=lines.pop();
+    lines.forEach(function(l){ if(l.trim()) onLine(l.trim()); });
+  }
+  if(buf.trim()) onLine(buf.trim());
+}
+
+// Envía el prompt (y las imágenes, si hay) y va mostrando el texto a medida que llega
+async function generate(prompt, images, onText){
+  images=images||[];
+  var c=aiCfg(), full='', b64s=await Promise.all(images.map(fileToB64));
+  var system='Eres un experto en publicidad en Facebook e Instagram. Respondes siempre en español neutro.';
+  if(c.engine==='openai'){
+    if(!c.oaKey) throw new Error('falta la clave de OpenAI (abre "Motor de IA")');
+    var content = b64s.length ? [{type:'text',text:prompt}].concat(b64s.map(function(b,i){ return {type:'image_url',image_url:{url:'data:'+(images[i].type||'image/jpeg')+';base64,'+b}}; })) : prompt;
+    var r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',
+      headers:{'Content-Type':'application/json',Authorization:'Bearer '+c.oaKey},
+      body:JSON.stringify({model:c.oaModel, stream:true, messages:[{role:'system',content:system},{role:'user',content:content}]})});
+    if(!r.ok){ var j={}; try{ j=await r.json(); }catch(e){} throw new Error((j.error&&j.error.message)||('OpenAI respondió '+r.status)); }
+    await readLines(r,function(l){
+      if(l.indexOf('data:')!==0) return; var d=l.slice(5).trim(); if(d==='[DONE]') return;
+      try{ var t=JSON.parse(d).choices[0].delta.content; if(t){ full+=t; onText(full); } }catch(e){}
+    });
+  } else {
+    if(!c.olModel) throw new Error('elige un modelo de Ollama (abre "Motor de IA" y pulsa Buscar)');
+    var msg={role:'user',content:prompt}; if(b64s.length) msg.images=b64s;
+    var r2;
+    try{
+      r2=await fetch(c.olUrl+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({model:c.olModel, stream:true, messages:[{role:'system',content:system},msg]})});
+    }catch(e){ var err=new Error('sin conexión'); err.html=ollamaHelp(c.olUrl); throw err; }
+    if(!r2.ok){ var t2=''; try{ t2=(await r2.json()).error||''; }catch(e){} throw new Error(t2||('Ollama respondió '+r2.status)); }
+    await readLines(r2,function(l){
+      try{ var o=JSON.parse(l); if(o.error) throw new Error(o.error); if(o.message&&o.message.content){ full+=o.message.content; onText(full); } }
+      catch(e){ if(e.message && !/JSON/.test(e.message)) throw e; }
+    });
+  }
+  if(!full.trim()) throw new Error('la IA no devolvió texto');
+  return full;
+}
+
+/* ---------- imagen o video del anuncio ---------- */
+function setImage(f){
+  clearVideo(); imgFile=f||null;
+  var p=$('aImgPrev');
+  if(imgFile){ p.src=URL.createObjectURL(imgFile); p.classList.remove('hidden'); } else { p.classList.add('hidden'); p.removeAttribute('src'); }
+}
+$('aImg').addEventListener('change', function(){ setImage(this.files[0]); this.value=''; });
+$('aVid').addEventListener('change', function(){ if(this.files[0]) loadVideo(this.files[0]); this.value=''; });
+(function(){
+  var dz=$('mediaDrop');
+  ['dragenter','dragover'].forEach(function(ev){ dz.addEventListener(ev,function(e){ e.preventDefault(); dz.classList.add('over'); }); });
+  ['dragleave','drop'].forEach(function(ev){ dz.addEventListener(ev,function(e){ e.preventDefault(); dz.classList.remove('over'); }); });
+  dz.addEventListener('drop', function(e){
+    var f=e.dataTransfer.files[0]; if(!f) return;
+    if(/^video\//.test(f.type) || /\.(mp4|mov|webm|m4v|mkv)$/i.test(f.name)) loadVideo(f);
+    else if(/^image\//.test(f.type)) setImage(f);
+    else setStatus('⚠️ Ese archivo no es una imagen ni un video.','err');
+  });
+})();
+
+// vid = { name, dur, w, h, shots, cutEvery, hookCuts, frames:[{t,blob}], ready }
+var vid=null, vidToken=0;
+function fmtTime(s){ s=Math.round(s); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+function seekTo(v,t){
+  return new Promise(function(ok){
+    var done=function(){ clearTimeout(tm); v.removeEventListener('seeked',done); ok(); };
+    var tm=setTimeout(done,2000);
+    v.addEventListener('seeked',done);
+    v.currentTime=Math.max(0,Math.min(t,v.duration-0.05));
+  });
+}
+function grabFrame(v,maxW){
+  var sc=Math.min(1,maxW/v.videoWidth), c=document.createElement('canvas');
+  c.width=Math.round(v.videoWidth*sc); c.height=Math.round(v.videoHeight*sc);
+  c.getContext('2d').drawImage(v,0,0,c.width,c.height);
+  return new Promise(function(ok){ c.toBlob(ok,'image/jpeg',0.82); });
+}
+var grayCv=document.createElement('canvas'); grayCv.width=48; grayCv.height=27;
+function grayOf(v){
+  var g=grayCv.getContext('2d',{willReadFrequently:true}); g.drawImage(v,0,0,48,27);
+  var d=g.getImageData(0,0,48,27).data, out=new Float32Array(48*27);
+  for(var i=0;i<out.length;i++) out[i]=d[i*4]*0.3+d[i*4+1]*0.59+d[i*4+2]*0.11;
+  return out;
+}
+// Fotogramas: 3 del gancho (0-3 s) y 5 repartidos por el resto
+function frameTimes(dur){
+  var t=[];
+  if(dur<=4){ for(var i=0;i<6;i++) t.push(0.2+(dur-0.4)*i/5); return t; }
+  t.push(0.3,1.3,2.6);
+  var a=3.5, b=Math.max(a,dur-0.3);
+  for(var j=0;j<5;j++) t.push(a+(b-a)*j/4);
+  return t.filter(function(x,i,arr){ return i===0 || x-arr[i-1]>0.25; });
+}
+
+async function loadVideo(file){
+  var my=++vidToken;
+  imgFile=null; $('aImgPrev').classList.add('hidden');
+  vid={name:file.name, ready:false, frames:[]};
+  $('vidBox').classList.remove('hidden'); $('vidFrames').innerHTML='';
+  var url=URL.createObjectURL(file); $('vidPrev').src=url;
+  var st=$('vidStats'); st.innerHTML='<span><span class="spin"></span>Preparando el video…</span>';
+  var w=document.createElement('video'); w.muted=true; w.preload='auto'; w.playsInline=true; w.src=url;
+  try{
+    await new Promise(function(ok,fail){ w.onloadeddata=ok; w.onerror=function(){ fail(new Error('formato')); }; setTimeout(function(){ fail(new Error('formato')); },15000); });
+    if(!isFinite(w.duration) || !w.videoWidth) throw new Error('formato');
+    var dur=w.duration; vid.dur=dur; vid.w=w.videoWidth; vid.h=w.videoHeight;
+
+    // 1) fotogramas clave
+    var times=frameTimes(dur), fr=$('vidFrames');
+    fr.classList.toggle('wide', vid.w>vid.h);
+    for(var i=0;i<times.length;i++){
+      if(my!==vidToken) return;
+      st.innerHTML='<span><span class="spin"></span>Sacando fotogramas '+(i+1)+'/'+times.length+'…</span>';
+      await seekTo(w,times[i]);
+      var blob=await grabFrame(w,640);
+      vid.frames.push({t:times[i], blob:blob});
+      var fig=document.createElement('figure'); if(times[i]<3 && dur>4) fig.className='hook';
+      fig.innerHTML='<img alt=""><figcaption>'+times[i].toFixed(1)+' s</figcaption>';
+      fig.querySelector('img').src=URL.createObjectURL(blob); fr.appendChild(fig);
+    }
+
+    // 2) cortes de escena
+    var step=Math.max(0.25, dur/160), prev=null, diffs=[];
+    for(var t=0; t<dur; t+=step){
+      if(my!==vidToken) return;
+      st.innerHTML='<span><span class="spin"></span>Midiendo el ritmo '+Math.min(100,Math.round(t/dur*100))+'%…</span>';
+      await seekTo(w,t);
+      var g=grayOf(w);
+      if(prev){ var s=0; for(var k=0;k<g.length;k++) s+=Math.abs(g[k]-prev[k]); diffs.push({t:t-step/2, d:s/g.length}); }
+      prev=g;
+    }
+    var sorted=diffs.map(function(x){ return x.d; }).sort(function(a,b){ return a-b; });
+    var med=sorted.length?sorted[Math.floor(sorted.length/2)]:0, cuts=[];
+    diffs.forEach(function(x){ if(x.d>Math.max(22, med*3+6) && (!cuts.length || x.t-cuts[cuts.length-1]>0.5)) cuts.push(x.t); });
+    vid.shots=cuts.length+1; vid.cutEvery=dur/vid.shots;
+    vid.hookCuts=cuts.filter(function(x){ return x<3; }).length;
+    vid.ready=true;
+
+    var orient=vid.h>vid.w*1.2?'vertical':vid.w>vid.h*1.2?'horizontal':'cuadrado';
+    st.innerHTML='<span>⏱ '+fmtTime(dur)+'</span><span>🎞 '+vid.shots+' escena'+(vid.shots>1?'s':'')+'</span>'+
+      '<span>✂ un corte cada '+vid.cutEvery.toFixed(1).replace('.',',')+' s</span><span>⚡ '+vid.hookCuts+' corte'+(vid.hookCuts===1?'':'s')+' en 0-3 s</span>'+
+      '<span>📐 '+orient+' '+vid.w+'×'+vid.h+'</span>';
+    vid.orient=orient;
+  }catch(e){
+    if(my!==vidToken) return;
+    st.innerHTML='<span style="color:#fca5a5">❌ No se pudo leer este video. Conviértelo a <b>MP4 (H.264)</b> con tu editor y vuelve a intentarlo.</span>';
+    vid=null;
+  }finally{ w.removeAttribute('src'); w.load(); }
+}
+function clearVideo(){
+  vidToken++; vid=null;
+  $('vidBox').classList.add('hidden'); $('vidFrames').innerHTML=''; $('vidStats').innerHTML='';
+  var p=$('vidPrev'); p.pause(); p.removeAttribute('src'); p.load();
+  $('aSpeech').value='';
+}
+$('vidRemove').addEventListener('click', clearVideo);
+
+function mediaForAI(){
+  if(vid && vid.ready) return vid.frames.map(function(f){ return f.blob; });
+  return imgFile ? [imgFile] : [];
+}
+function videoContext(){
+  if(!vid || !vid.ready) return '';
+  var sp=$('aSpeech').value.trim();
+  return '\n\nES UN ANUNCIO EN VIDEO. Datos medidos: duración '+vid.dur.toFixed(1)+' s; '+vid.shots+' escenas; un corte cada '+vid.cutEvery.toFixed(1)+' s; '+
+    vid.hookCuts+' cortes en los primeros 3 segundos; formato '+vid.orient+'.\n'+
+    'Te adjunto '+vid.frames.length+' fotogramas en orden: '+vid.frames.map(function(f,i){ return (i+1)+') segundo '+f.t.toFixed(1); }).join('; ')+
+    '. Los que están antes del segundo 3 forman el gancho.\n'+
+    (sp ? 'LO QUE SE DICE EN EL VIDEO:\n'+sp : '(No hay transcripción de la voz: analiza lo visual y el texto que aparece en pantalla.)');
+}
+
+function adData(){
+  return {text:$('aText').value.trim(), brand:$('aBrand').value.trim(), head:$('aHead').value.trim(), cta:$('aCta').value, obj:$('aObj').value, tone:$('aTone').value, link:$('aLink').value.trim()};
+}
+function context(d){
+  return 'MARCA: '+(d.brand||'—')+'\nOBJETIVO: '+d.obj+'\nBOTÓN (CTA): '+d.cta+'\nTITULAR: '+(d.head||'—')+'\nTEXTO PRINCIPAL:\n'+(d.text||'(sin texto)')+videoContext();
+}
+// Comprueba que hay algo que analizar
+function ready(d){
+  if(vid && !vid.ready){ setStatus('⏳ Espera a que termine de procesar el video.','err'); return false; }
+  if(!d.text && !(vid && vid.ready)){ setStatus('⚠️ Pega primero el texto del anuncio o sube su video.','err'); $('aText').focus(); return false; }
+  return true;
+}
+
+function inline(s){ return s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>'); }
+function md2html(t){
+  var lines=esc(t).split('\n'), h='', inList=false;
+  lines.forEach(function(l){
+    var li=l.match(/^\s*(?:[-•*]|\d+[.)])\s+(.*)$/);
+    if(li){ if(!inList){ h+='<ul>'; inList=true; } h+='<li>'+inline(li[1])+'</li>'; return; }
+    if(inList){ h+='</ul>'; inList=false; }
+    var hd=l.match(/^\s*#{1,4}\s*(.+)$/);
+    if(hd){ h+='<h3>'+inline(hd[1].replace(/\*\*/g,''))+'</h3>'; return; }
+    if(l.trim()) h+='<p>'+inline(l)+'</p>';
+  });
+  if(inList) h+='</ul>';
+  return h;
+}
+function parseScores(t){
+  var o={};
+  KEYS.forEach(function(k){
+    var m=t.match(new RegExp(k+'\\s*[:=]\\s*(\\d{1,3})','i'));
+    o[k]=m?Math.min(100,parseInt(m[1],10)):null;
+  });
+  return o;
+}
+function stripScores(t){ return t.replace(/^.*PUNTUACIONES\s*:.*$/im,'').replace(/^\s+/,''); }
+function paintScores(s){
+  KEYS.forEach(function(k){
+    var v=s?s[k]:null, bar=$('b-'+k);
+    $('s-'+k).textContent = v==null ? '—' : v;
+    bar.style.width = v==null ? '0' : v+'%';
+    bar.style.background = v==null ? '' : (v>=75?'var(--ok)':v>=50?'var(--acc)':'var(--bad)');
+  });
+}
+function setStatus(html,cls){ var s=$('aiStatus'); s.className='status'+(cls?' '+cls:''); s.innerHTML=html; }
+function busy(on){ ['analyzeBtn','rewriteBtn','clearBtn','saveBtn'].forEach(function(id){ $(id).disabled=on; }); }
+
+async function runAI(prompt, msg, withScores){
+  var c=aiCfg();
+  if(c.engine==='ollama' ? !c.olModel : !c.oaKey){
+    $('aiCfgBox').open=true; $('aiCfgBox').scrollIntoView({behavior:'smooth',block:'center'});
+    if(c.engine==='ollama') refreshOllama(true).then(function(ok){ if(ok) saveAiCfg(); });
+    setStatus('⚙️ Primero elige el motor de IA en <b>Motor de IA</b> (debajo de los botones) y pulsa Guardar.','err'); return;
+  }
+  busy(true); setStatus('<span class="spin"></span>'+esc(msg)+' <small>('+esc(aiLabel(c))+')</small>');
+  var out=$('aiOut'); out.classList.remove('hidden'); out.innerHTML='';
+  if(withScores) paintScores(null);
+  $('aureaPromo').classList.add('hidden');
+  function show(t){ out.innerHTML=md2html(withScores?stripScores(t):t); }
+  var noImgNote='', media=mediaForAI();
+  var onlyText = vid ? 'se analizaron solo los datos del video y el texto' : 'se analizó solo el texto';
+  try{
+    var text;
+    if(media.length && c.engine==='ollama'){
+      var caps=await olCaps(c.olUrl,c.olModel);
+      if(caps && caps.indexOf('vision')<0){ noImgNote=' ('+c.olModel+' no lee imágenes: '+onlyText+'. Elige gemma3:4b en Motor de IA)'; media=[]; }
+    }
+    if(media.length){
+      setStatus('<span class="spin"></span>'+esc(msg)+' <small>('+esc(aiLabel(c))+' · '+media.length+' imagen'+(media.length>1?'es':'')+')</small>');
+      media=await Promise.all(media.map(prepImage));
+      try{ text=await generate(prompt,media,show); }
+      catch(e){ // no se pudo usar la imagen: sigue solo con el texto y dice por qué
+        if(e.html) throw e;
+        noImgNote=' (no se pudo usar la imagen — '+((e&&e.message)||e)+' — así que '+onlyText+')';
+        text=await generate(prompt,null,show);
+      }
+    } else text=await generate(prompt,null,show);
+    if(withScores){ lastScores=parseScores(text); paintScores(lastScores); text=stripScores(text); }
+    lastResult=text; show(text);
+    $('aureaPromo').classList.remove('hidden');
+    setStatus('✅ Listo'+esc(noImgNote)+'. Puedes guardarlo, copiarlo o descargarlo.','ok');
+  }catch(e){
+    setStatus('❌ '+(e.html||('La IA no respondió: '+esc((e&&e.message)||e))),'err');
+    if(!out.textContent.trim()) out.classList.add('hidden');
+  }
+  busy(false);
+}
+
+$('analyzeBtn').addEventListener('click', function(){
+  var d=adData(); if(!ready(d)) return;
+  var isVid=!!(vid&&vid.ready);
+  var p='Eres un experto en anuncios de Facebook e Instagram. Analiza este anuncio'+(isVid?' en video (fotogramas adjuntos)':imgFile?' (incluye también la imagen adjunta)':'')+'.\n\n'+context(d)+
+    '\n\nResponde en español neutro, con frases cortas y sin relleno.\n'+
+    'La PRIMERA línea debe ser exactamente así, con números de 0 a 100:\n'+
+    'PUNTUACIONES: gancho=NN; oferta=NN; confianza=NN; cta=NN; global=NN\n\n'+
+    'Después escribe estas secciones, cada una con un título que empiece por "## ":\n'+
+    '## Diagnóstico — estilo del anuncio, emoción principal, a quién va dirigido (3 líneas).\n'+
+    '## Lo que funciona — 3 viñetas.\n'+
+    '## Lo que falla — 3 viñetas con el formato ANTES → DESPUÉS.\n'+
+    '## Riesgos con las políticas de Meta — hasta 3 viñetas, o "Ninguno relevante".\n'+
+    (isVid ? '## Gancho (0-3 s) — qué se ve, si detiene el scroll y cómo mejorarlo.\n## Ritmo y edición — opina sobre la duración, el número de escenas y el texto en pantalla.\n' : '')+
+    '## Versión mejorada — Texto principal (60-90 palabras), Titular, Descripción y Botón. Tono: '+d.tone+'.'+
+    (isVid ? '\n## Guion mejorado — video de 15 a 30 s, escena por escena; para cada escena: segundos, lo que se ve, texto en pantalla y lo que se dice.' : '');
+  runAI(p, isVid?'Analizando el video…':'Analizando el anuncio…', true);
+});
+
+$('rewriteBtn').addEventListener('click', function(){
+  var d=adData(); if(!ready(d)) return;
+  var p='Eres un redactor experto en anuncios de Facebook e Instagram. Basándote en este anuncio:\n\n'+context(d)+
+    '\n\nEscribe 3 versiones nuevas que mantengan el mismo producto y la misma emoción, pero con un gancho inicial distinto cada una:\n'+
+    '## Versión A — tono '+d.tone+'\n## Versión B — como si lo contara un cliente real\n## Versión C — problema → solución\n'+
+    'Cada versión: Gancho (primera frase), Texto principal (60-90 palabras), Titular y Botón'+(vid&&vid.ready?', y un guion de video de 15 s en 3-4 escenas (segundos, lo que se ve, texto en pantalla)':'')+'. '+
+    'Al final, una sección "## Cuál probar primero" con 2 líneas. Español neutro, sin promesas exageradas que Meta rechace.';
+  runAI(p,'Escribiendo 3 versiones…',false);
+});
+
+$('clearBtn').addEventListener('click', function(){
+  ['aText','aBrand','aHead','aLink'].forEach(function(id){ $(id).value=''; });
+  setImage(null); $('vidDl').classList.add('hidden');
+  $('fetchHint').innerHTML='Opcional. Con la lectura automática activada, pega el enlace y pulsa <b>Traer</b>. Si no, copia el texto a mano.';
+  lastResult=''; lastScores={}; paintScores(null);
+  $('aiOut').classList.add('hidden'); $('aureaPromo').classList.add('hidden'); setStatus('Pega un anuncio y pulsa <b>Analizar y mejorar</b>.');
+});
+$('aureaBtn').addEventListener('click', async function(){
+  if(!lastResult) return;
+  var m=lastResult.match(/##\s*Guion mejorado[\s\S]*/i) || lastResult.match(/##\s*Versión mejorada[\s\S]*?(?=\n##\s|$)/i) || lastResult.match(/##\s*Versión A[\s\S]*/i);
+  await copyText((m?m[0]:lastResult).trim());
+  flash(this,'✓ Copiado. Pégalo en AUREA');
+  window.open(AUREA_URL,'_blank','noopener');
+});
+$('copyOutBtn').addEventListener('click', async function(){ if(!lastResult) return; if(await copyText(lastResult)) flash(this,'✓ Copiado'); });
+$('dlOutBtn').addEventListener('click', function(){
+  if(!lastResult) return;
+  var d=adData();
+  download('analisis-'+(d.brand||'anuncio').replace(/\W+/g,'-').toLowerCase()+'.md', '# '+(d.brand||'Anuncio')+'\n\n'+d.text+'\n\n---\n\n'+lastResult, 'text/markdown');
+});
+
+/* =========================================================
+   LECTURA AUTOMÁTICA (opcional, vía Apify)
+   ========================================================= */
+var DEFAULT_ACTOR='curious_coder~facebook-ads-library-scraper';
+function apifyToken(){ return cfgGet('apifyToken').trim(); }
+function apifyActor(){ return (cfgGet('apifyActor').trim()||DEFAULT_ACTOR).replace('/','~'); }
+
+function paintCfg(){
+  var on=!!apifyToken();
+  $('cfgToken').value=apifyToken();
+  $('cfgActor').value=apifyActor();
+  var s=$('cfgBox').querySelector('summary');
+  s.innerHTML='⚙️ Lectura automática <span class="badge '+(on?'on':'off')+'">'+(on?'ACTIVADA':'DESACTIVADA')+'</span>';
+}
+$('cfgSave').addEventListener('click', function(){
+  cfgSet('apifyToken',$('cfgToken').value.trim());
+  var a=$('cfgActor').value.trim(); cfgSet('apifyActor', a&&a.replace('/','~')!==DEFAULT_ACTOR?a:'');
+  paintCfg(); flash(this,'✓ Guardado');
+});
+$('cfgDel').addEventListener('click', function(){ cfgSet('apifyToken',''); paintCfg(); });
+
+// Busca el primer valor no vacío entre varias rutas (cada lector devuelve formatos algo distintos)
+function pick(o,paths){
+  for(var i=0;i<paths.length;i++){
+    var v=paths[i].split('.').reduce(function(a,k){ return a==null?a:a[k]; }, o);
+    if(Array.isArray(v)) v=v[0];
+    if(v && typeof v==='object') v=v.text||v.original_image_url||v.resized_image_url||v.url||'';
+    if(typeof v==='number') v=String(v);
+    if(typeof v==='string' && v.trim() && v.indexOf('{{')<0) return v.trim();
+  }
+  return '';
+}
+function adIdFrom(u){ var m=(u||'').match(/[?&]id=(\d+)/); return m?m[1]:''; }
+
+function setCta(txt){
+  if(!txt) return;
+  var sel=$('aCta'), found=Array.prototype.some.call(sel.options,function(o){ return o.text.toLowerCase()===txt.toLowerCase(); });
+  if(!found){ var o=document.createElement('option'); o.text=txt; sel.add(o); }
+  Array.prototype.forEach.call(sel.options,function(o){ if(o.text.toLowerCase()===txt.toLowerCase()) sel.value=o.value; });
+}
+
+async function loadImageForAI(url){
+  // Intenta descargar la imagen para el análisis visual; si Meta lo impide, solo se muestra
+  try{
+    var r=await fetch(url);
+    var b=await r.blob(); if(b && b.size>500 && /^image\//.test(b.type)) return new File([b],'anuncio.jpg',{type:b.type});
+  }catch(e){}
+  return null;
+}
+
+$('fetchAdBtn').addEventListener('click', async function(){
+  var url=$('aLink').value.trim(), hint=$('fetchHint'), btn=this;
+  if(!/facebook\.com\/ads\/library/i.test(url)){ hint.innerHTML='⚠️ Pega primero el enlace del anuncio (debe ser de <b>facebook.com/ads/library</b>).'; $('aLink').focus(); return; }
+  if(!apifyToken()){ $('cfgBox').open=true; hint.innerHTML='Para traer el anuncio solo, activa la <b>lectura automática</b> aquí abajo. Mientras tanto, copia el texto a mano.'; return; }
+
+  btn.disabled=true; hint.innerHTML='<span class="spin"></span>Leyendo el anuncio en Meta… puede tardar 20-60 segundos.';
+  try{
+    var body={ urls:[{url:url}], startUrls:[{url:url}], count:10, maxItems:10, resultsLimit:10 };
+    var r=await fetch('https://api.apify.com/v2/acts/'+encodeURIComponent(apifyActor())+'/run-sync-get-dataset-items?timeout=120',{
+      method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+apifyToken()}, body:JSON.stringify(body)
+    });
+    if(r.status===401||r.status===403) throw new Error('la clave de Apify no es válida o no tiene saldo');
+    if(r.status===402) throw new Error('se acabó el saldo de Apify este mes');
+    if(!r.ok) throw new Error('Apify respondió con error '+r.status);
+    var items=await r.json();
+    if(!Array.isArray(items)||!items.length) throw new Error('no se encontró el anuncio (puede que ya no esté disponible)');
+
+    var id=adIdFrom(url);
+    var ad=items.filter(function(x){ return id && String(x.ad_archive_id||x.adArchiveID||x.ad_id||x.id||'')===id; })[0]||items[0];
+
+    var text=pick(ad,['snapshot.body.text','snapshot.body','body.text','body','text','ad_creative_bodies','snapshot.cards.0.body']);
+    var vurl=pick(ad,['snapshot.videos.0.video_hd_url','snapshot.videos.0.video_sd_url','snapshot.cards.0.video_hd_url','snapshot.cards.0.video_sd_url','videos.0.video_hd_url','videos.0.video_sd_url','video_hd_url','video_sd_url']);
+    if(!text && !vurl) throw new Error('el anuncio no tiene texto que se pueda leer');
+    $('aText').value=text;
+    $('aBrand').value=pick(ad,['page_name','snapshot.page_name','pageName','advertiser'])||$('aBrand').value;
+    $('aHead').value=pick(ad,['snapshot.title','title','snapshot.cards.0.title','ad_creative_link_titles'])||$('aHead').value;
+    setCta(pick(ad,['snapshot.cta_text','cta_text','ctaText']));
+
+    var img=pick(ad,['snapshot.images','snapshot.cards.0.original_image_url','snapshot.cards.0.resized_image_url','snapshot.videos.0.video_preview_image_url','media.primary_thumbnail','thumbnail']);
+    var started=pick(ad,['start_date_formatted','startDateFormatted']);
+    var dl=$('vidDl'), vidNote='';
+    if(vurl){
+      // Anuncio en video: botón de descarga y, si Meta lo permite, carga directa para analizarlo
+      dl.href=vurl; dl.classList.remove('hidden');
+      hint.innerHTML='<span class="spin"></span>Es un video: intentando cargarlo para el análisis…';
+      var vf=null;
+      try{ var vr=await fetch(vurl); if(vr.ok){ var vb=await vr.blob(); if(vb.size>10000) vf=new File([vb],'anuncio-'+(adIdFrom(url)||'meta')+'.mp4',{type:vb.type||'video/mp4'}); } }catch(e){}
+      if(vf){ loadVideo(vf); vidNote=' El video ya está cargado para el análisis.'; }
+      else vidNote=' Es un video: pulsa <b>Descargar el video del anuncio</b>, guárdalo y luego súbelo con <b>Elegir video</b>.';
+    } else {
+      dl.classList.add('hidden');
+      if(img){ setImage(null); var p=$('aImgPrev'); p.src=img; p.classList.remove('hidden'); imgFile=await loadImageForAI(img); }
+    }
+    hint.innerHTML='✅ Anuncio cargado'+(started?' · empezó a circular el '+esc(started.slice(0,10)):'')+'.'+(vidNote||' Ya puedes pulsar <b>Analizar y mejorar</b>.');
+  }catch(e){
+    hint.innerHTML='❌ No se pudo traer: '+esc((e&&e.message)||e)+'. Copia el texto a mano y sigue normal.';
+  }
+  btn.disabled=false;
+});
+
+/* =========================================================
+   GUARDADOS
+   ========================================================= */
+$('saveBtn').addEventListener('click', async function(){
+  var d=adData(); if(!d.text && !(vid&&vid.ready)){ setStatus('⚠️ No hay nada que guardar: pega el texto o sube el video.','err'); return; }
+  var rec={id:'a'+Date.now(), ts:Date.now(), brand:d.brand, text:d.text, head:d.head, cta:d.cta, obj:d.obj, link:d.link, scores:lastScores, analysis:lastResult,
+    speech:$('aSpeech').value.trim(), video: vid&&vid.ready ? {name:vid.name, dur:vid.dur, shots:vid.shots} : null};
+  try{ await DB_ADS.set(rec.id,rec); flash(this,'✓ Guardado'); refreshCount(); }
+  catch(e){ setStatus('❌ No se pudo guardar.','err'); }
+});
+
+async function refreshCount(){ try{ $('savedCount').textContent=(await DB_ADS.keys()).length; }catch(e){} }
+
+async function loadLibrary(){
+  var body=$('libBody'), q=$('libQ').value.trim().toLowerCase(), days=parseInt($('libPeriod').value,10);
+  var limit=days?days*864e5:Infinity, now=Date.now();
+  try{
+    var all=await DB_ADS.entries(); all.sort(function(a,b){ return b[1].ts-a[1].ts; });
+    var rows=all.map(function(e){ return e[1]; }).filter(function(r){
+      if(now-r.ts>limit) return false;
+      return !q || ((r.brand||'')+' '+(r.text||'')+' '+(r.head||'')).toLowerCase().indexOf(q)>=0;
+    });
+    body.innerHTML='';
+    if(!rows.length){ body.innerHTML='<tr><td colspan="4" class="empty">'+(all.length?'Nada coincide con el filtro.':'Todavía no has guardado anuncios.')+'</td></tr>'; return; }
+    rows.forEach(function(r){
+      var g=r.scores&&r.scores.global, tr=document.createElement('tr');
+      tr.innerHTML='<td>'+new Date(r.ts).toLocaleDateString()+'</td>'+
+        '<td><b>'+esc(r.brand||'Sin marca')+'</b>'+(r.video?' <span class="mut">🎬 '+fmtTime(r.video.dur)+'</span>':'')+'<br><span class="mut">'+esc((r.text||'').slice(0,110))+((r.text||'').length>110?'…':'')+'</span>'+
+        (r.link?'<br><a href="'+esc(r.link)+'" target="_blank" rel="noopener" style="color:var(--acc2);font-size:12px">Ver en Meta ↗</a>':'')+'</td>'+
+        '<td><b style="font-size:16px">'+(g==null?'—':g)+'</b></td>';
+      var td=document.createElement('td'); td.style.whiteSpace='nowrap';
+      var open=document.createElement('button'); open.className='btn ghost small'; open.textContent='Abrir';
+      open.addEventListener('click', function(){ openSaved(r); });
+      var del=document.createElement('button'); del.className='btn ghost small'; del.textContent='✕'; del.style.marginLeft='6px';
+      del.addEventListener('click', async function(){ if(!confirm('¿Eliminar este anuncio?')) return; await DB_ADS.delete(r.id); loadLibrary(); refreshCount(); });
+      td.appendChild(open); td.appendChild(del); tr.appendChild(td); body.appendChild(tr);
+    });
+  }catch(e){ body.innerHTML='<tr><td colspan="4" class="empty">Error al cargar: '+esc(e.message)+'</td></tr>'; }
+}
+function openSaved(r){
+  setImage(null); $('vidDl').classList.add('hidden');
+  $('aText').value=r.text||''; $('aBrand').value=r.brand||''; $('aHead').value=r.head||''; $('aLink').value=r.link||'';
+  if(r.cta) $('aCta').value=r.cta; if(r.obj) $('aObj').value=r.obj;
+  lastResult=r.analysis||''; lastScores=r.scores||{}; paintScores(r.scores||null);
+  $('aureaPromo').classList.toggle('hidden', !lastResult);
+  if(lastResult){ $('aiOut').classList.remove('hidden'); $('aiOut').innerHTML=md2html(lastResult); setStatus('Anuncio guardado cargado.'); }
+  else { $('aiOut').classList.add('hidden'); setStatus('Anuncio cargado. Pulsa <b>Analizar y mejorar</b>.'); }
+  goTab('analizar');
+}
+$('libQ').addEventListener('input', loadLibrary);
+$('libPeriod').addEventListener('change', loadLibrary);
+$('csvBtn').addEventListener('click', async function(){
+  var all=await DB_ADS.entries(); if(!all.length) return;
+  function c(s){ return '"'+String(s==null?'':s).replace(/"/g,'""').replace(/\r?\n/g,' ')+'"'; }
+  var csv='fecha,marca,titular,cta,objetivo,nota_global,texto,enlace_meta\n'+all.map(function(e){
+    var r=e[1]; return [new Date(r.ts).toLocaleDateString(),c(r.brand),c(r.head),c(r.cta),c(r.obj),(r.scores&&r.scores.global)||'',c(r.text),c(r.link)].join(',');
+  }).join('\n');
+  download('anuncios-guardados.csv','\ufeff'+csv,'text/csv'); // \ufeff = acentos correctos en Excel
+});
+$('delAllBtn').addEventListener('click', async function(){
+  if(!confirm('¿Borrar TODOS los anuncios guardados? No se puede deshacer.')) return;
+  await DB_ADS.deleteMany(await DB_ADS.keys()); loadLibrary(); refreshCount();
+});
+
+/* ---------- arranque ---------- */
+updateUrl();
+renderHist();
+refreshCount();
+paintScores(null);
+paintCfg();
+paintAiCfg();
+if(aiCfg().engine==='ollama') refreshOllama(true).then(function(ok){ if(ok && !aiCfg().olModel) saveAiCfg(); });
 </script>
-</body>
-</html>
