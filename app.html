@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AdSpy Meta Pro — App</title></head><body>
 <style>
   :root{
     --bg:#0b1020; --card:#141d3b; --line:#273566; --field:#0c1330;
@@ -12,7 +14,7 @@
   .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-size:22px;font-weight:900}
   .brand h1{font-size:19px;margin:0}
   .brand small{color:var(--mut);font-size:12.5px}
-  .tabs{display:flex;gap:6px;background:#0d1430;border:1px solid var(--line);padding:5px;border-radius:999px}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;background:#0d1430;border:1px solid var(--line);padding:5px;border-radius:999px}
   .tabs button{border:0;background:transparent;color:var(--mut);padding:9px 16px;border-radius:999px;font-weight:700;cursor:pointer;font-size:14px}
   .tabs button.on{background:var(--acc);color:#fff}
   .tabs .count{font-size:11px;background:rgba(255,255,255,.15);border-radius:99px;padding:1px 7px;margin-left:4px}
@@ -98,14 +100,35 @@
   .promo{margin-top:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,rgba(79,124,255,.18),rgba(34,211,238,.12));border:1px solid rgba(34,211,238,.4);border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.5}
   .promo span{color:var(--mut)}
   .hidden{display:none !important}
+  /* ---- prospectos ---- */
+  .leads{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+  .lead{background:var(--field);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .lead-top{display:flex;gap:10px;align-items:center}
+  .lead-top img{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#000;flex:none;border:1px solid var(--line)}
+  .lead-name{font-weight:800;font-size:15px;line-height:1.3}
+  .lead-name a{color:var(--txt);text-decoration:none}
+  .lead-name small{display:block;color:var(--mut);font-weight:400;font-size:12px}
+  .lead-score{margin-left:auto;text-align:center;min-width:58px;flex:none}
+  .lead-score span{font-size:24px;font-weight:900;display:block;line-height:1}
+  .lead-score b{font-size:9.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+  .tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+  .tag{font-size:11.5px;border-radius:99px;padding:2px 9px;background:#080d24;border:1px solid var(--line);color:var(--mut)}
+  .tag.hot{color:#86efac;border-color:rgba(34,197,94,.5)}
+  .contacts{margin-top:9px;font-size:13px;display:flex;flex-direction:column;gap:3px;word-break:break-all}
+  .contacts a{color:var(--acc2)}
+  .reasons{margin:8px 0 0 18px;padding:0;font-size:12.5px;color:var(--mut);line-height:1.5}
+  .adx{font-size:12.5px;color:var(--mut);margin-top:8px;font-style:italic;line-height:1.45}
+  .lead textarea{min-height:96px;margin-top:9px;font-size:13.5px}
+  .lead select.st{width:auto;padding:7px 9px;font-size:12.5px;border-radius:9px}
+  .lead .btns{margin-top:8px}
 </style>
 
 <div class="wrap">
   <header>
     <div class="brand">
-      <div class="logo">◈</div>
+      <a href="./" class="logo" title="Volver a la página de AdSpy Meta Pro" style="color:#fff;text-decoration:none">◈</a>
       <div>
-        <h1>AdSpy Meta</h1>
+        <h1>AdSpy Meta <span style="font-size:11px;background:linear-gradient(135deg,#f59e0b,#ef4444);padding:2px 8px;border-radius:99px;vertical-align:3px">PRO</span></h1>
         <small>Encuentra anuncios en la Biblioteca de Meta · analízalos · mejóralos</small>
       </div>
     </div>
@@ -113,6 +136,7 @@
       <button data-tab="buscar" class="on">🔎 Buscar</button>
       <button data-tab="analizar">🧠 Analizar</button>
       <button data-tab="guardados">💾 Guardados <span class="count" id="savedCount">0</span></button>
+      <button data-tab="prospectos">🎯 Prospectos <span class="count" id="leadCount">0</span></button>
     </nav>
   </header>
 
@@ -346,9 +370,66 @@
     </div>
   </section>
 
+  <!-- ============ PROSPECTOS ============ -->
+  <section id="tab-prospectos" class="hidden">
+    <div class="grid">
+      <div class="card">
+        <h2>🎯 Buscar anunciantes para ofrecerles tus servicios</h2>
+        <p class="desc">Usa los filtros de la pestaña <b>Buscar</b> (palabra clave, país, formato…). Aquí la app trae muchos anuncios de una vez, los <b>agrupa por anunciante</b>, saca sus <b>contactos</b> y los <b>puntúa</b> según lo buen cliente que pueden ser para ti.</p>
+        <div class="urlbox" id="leadSearchInfo"></div>
+        <div class="row">
+          <div><label class="f">Cuántos anuncios traer</label>
+            <select id="leadN"><option>30</option><option selected>60</option><option>100</option><option>200</option></select></div>
+          <div><label class="f">Filtros</label><button class="btn ghost" id="leadEditFilters" style="width:100%;justify-content:center">✎ Cambiar filtros</button></div>
+        </div>
+        <div class="btns"><button class="btn big" id="leadRunBtn">🎯 Buscar prospectos</button></div>
+        <div class="status" id="leadStatus">Necesita la <b>lectura automática</b> (clave de Apify) activada en la pestaña Analizar. Más anuncios = más saldo de Apify.</div>
+        <div class="hint">💡 Buenas búsquedas: "pago contra entrega", "envío gratis", "escríbenos por WhatsApp", "clínica dental", "inmobiliaria", "curso online". Con formato <b>Imagen</b> encuentras a los que aún no usan video.</div>
+      </div>
+
+      <div class="card">
+        <h2>💼 Lo que ofreces</h2>
+        <p class="desc">La IA usa esto para escribir el mensaje a cada anunciante.</p>
+        <label class="f">Firma</label>
+        <input type="text" id="offSign">
+        <label class="f">Tus servicios</label>
+        <textarea id="offText" style="min-height:120px"></textarea>
+        <div class="btns"><button class="btn small" id="offSave">Guardar</button></div>
+        <details>
+          <summary>📂 Importar resultados de Apify (JSON)</summary>
+          <div class="hint" style="margin-top:8px">Si lanzaste la búsqueda en la web de Apify, descarga el resultado en formato <b>JSON</b> y súbelo aquí. Se procesa igual.</div>
+          <label class="btn ghost small" style="margin-top:8px">📂 Elegir archivo JSON<input type="file" id="leadImport" accept=".json,application/json" hidden></label>
+        </details>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>Prospectos <span class="mut" id="leadTot" style="color:var(--mut);font-weight:400;font-size:13px"></span></h2>
+      <div class="row3">
+        <div><label class="f">Tipo</label>
+          <select id="lfType"><option value="">Todos</option><option value="negocio">🏪 Negocios</option><option value="creador">⭐ Creadores / influencers</option><option value="marca">🏢 Marcas grandes</option></select></div>
+        <div><label class="f">Contacto</label>
+          <select id="lfContact"><option value="">Cualquiera</option><option value="wa">Con WhatsApp o teléfono</option><option value="any">Con contacto directo</option><option value="none">Solo por su página</option></select></div>
+        <div><label class="f">Formato</label>
+          <select id="lfFormat"><option value="">Todos</option><option value="img">🖼 Solo imagen (sin video)</option><option value="vid">🎬 Usa video</option></select></div>
+      </div>
+      <div class="row3">
+        <div><label class="f">Estado</label><select id="lfState"><option value="">Todos</option></select></div>
+        <div><label class="f">Orden</label>
+          <select id="lfSort"><option value="score">Mejor puntuación</option><option value="days">Más días anunciándose</option><option value="recent">Encontrados hace poco</option></select></div>
+        <div><label class="f">Buscar</label><input type="text" id="lfQ" placeholder="nombre, texto…"></div>
+      </div>
+      <div class="btns">
+        <button class="btn ghost small" id="leadCsvBtn">⬇ Exportar a Excel (CSV)</button>
+        <button class="btn ghost small" id="leadDelAll">🗑 Borrar todos</button>
+      </div>
+      <div class="leads" id="leadList"></div>
+    </div>
+  </section>
+
   <div class="footer">
     Una herramienta gratuita de <a href="https://corderorauly-raullg57.github.io/Herramix/" target="_blank" rel="noopener">Herramix</a> ·
-    ¿Necesitas ayuda para configurarla? <a href="https://wa.me/5355081288?text=Hola%20Ra%C3%BAl%2C%20necesito%20ayuda%20con%20AdSpy%20Meta" target="_blank" rel="noopener">Escríbeme por WhatsApp</a><br>
+    ¿Necesitas ayuda para configurarla? <a href="https://wa.me/5355081288?text=Hola%20Ra%C3%BAl%2C%20necesito%20ayuda%20con%20AdSpy%20Meta%20Pro" target="_blank" rel="noopener">Escríbeme por WhatsApp</a><br>
     Datos de la Biblioteca pública de Meta · No afiliado a Meta · El análisis con IA es orientativo · Inspírate, no copies.
   </div>
 </div>
@@ -391,8 +472,9 @@ var DB_ADS = store('adspy_ads');
 /* ---------- pestañas ---------- */
 function goTab(t){
   document.querySelectorAll('#tabs button').forEach(function(b){ b.classList.toggle('on', b.dataset.tab===t); });
-  ['buscar','analizar','guardados'].forEach(function(x){ $('tab-'+x).classList.toggle('hidden', x!==t); });
+  ['buscar','analizar','guardados','prospectos'].forEach(function(x){ $('tab-'+x).classList.toggle('hidden', x!==t); });
   if(t==='guardados') loadLibrary();
+  if(t==='prospectos'){ leadSearchInfo(); renderLeads(); }
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.querySelectorAll('#tabs button').forEach(function(b){ b.addEventListener('click', function(){ goTab(b.dataset.tab); }); });
@@ -1111,7 +1193,393 @@ $('delAllBtn').addEventListener('click', async function(){
   await DB_ADS.deleteMany(await DB_ADS.keys()); loadLibrary(); refreshCount();
 });
 
+/* =========================================================
+   PROSPECTOS — anunciantes como clientes potenciales
+   ========================================================= */
+var LEADS_KEY='adspy:adspy_leads';
+function leadsRead(){ try{ return JSON.parse(localStorage.getItem(LEADS_KEY)||'{}'); }catch(e){ return {}; } }
+function leadsWrite(o){ try{ localStorage.setItem(LEADS_KEY,JSON.stringify(o)); return true; }catch(e){ return false; } }
+function sleep(ms){ return new Promise(function(ok){ setTimeout(ok,ms); }); }
+var STATES=[['nuevo','🆕 Nuevo'],['contactado','📤 Contactado'],['respondio','💬 Respondió'],['cliente','✅ Cliente'],['descartado','✕ Descartado']];
+var TYPE_LBL={negocio:'🏪 Negocio',creador:'⭐ Creador / influencer',marca:'🏢 Marca grande'};
+var DEFAULT_OFFER='Videos publicitarios con voz y subtítulos para Facebook, Instagram y TikTok; mejora de textos de anuncios; landing pages; tarjetas digitales y QR. Entrega rápida y precios accesibles. La primera muestra es gratis.';
+function offerGet(){ return {sign:cfgGet('offSign')||'Raúl · HiSpaNet', text:cfgGet('offText')||DEFAULT_OFFER}; }
+function leadStatus(html,cls){ var s=$('leadStatus'); s.className='status'+(cls?' '+cls:''); s.innerHTML=html; }
+function fmtNum(n){ if(n==null||isNaN(n)) return '?'; return n>=1e6?(n/1e6).toFixed(1).replace('.',',')+' M':n>=1e3?Math.round(n/1e3)+' mil':String(n); }
+
+function leadSearchInfo(){
+  var q=$('q').value.trim(), adv=$('adv').value.trim();
+  var country=(COUNTRIES.filter(function(x){ return x[0]===$('country').value; })[0]||['',''])[1];
+  var opt=function(id){ var s=$(id); return s.options[s.selectedIndex].text; };
+  $('leadSearchInfo').innerHTML=(q||adv)
+    ? '🔎 <b>'+esc(q||adv)+'</b> · '+esc(country)+' · formato: '+esc(opt('media'))+' · '+esc(opt('status'))+' · '+esc(opt('lang'))
+    : '⚠️ Primero escribe una palabra clave en la pestaña <b>Buscar</b> (ej.: "pago contra entrega").';
+}
+$('leadEditFilters').addEventListener('click', function(){ goTab('buscar'); $('q').focus(); });
+
+/* ---- oferta ---- */
+(function(){ var o=offerGet(); $('offSign').value=o.sign; $('offText').value=o.text; })();
+$('offSave').addEventListener('click', function(){
+  cfgSet('offSign',$('offSign').value.trim()); cfgSet('offText',$('offText').value.trim()); flash(this,'✓ Guardado');
+});
+
+/* ---- Apify: lanzar búsqueda y esperar ---- */
+async function apifyRun(input, onProgress){
+  var h={'Content-Type':'application/json','Authorization':'Bearer '+apifyToken()};
+  var r=await fetch('https://api.apify.com/v2/acts/'+encodeURIComponent(apifyActor())+'/runs',{method:'POST',headers:h,body:JSON.stringify(input)});
+  if(r.status===401||r.status===403) throw new Error('la clave de Apify no es válida o no tiene permiso');
+  if(r.status===402) throw new Error('se acabó el saldo de Apify este mes');
+  if(!r.ok){ var j={}; try{ j=await r.json(); }catch(e){} throw new Error((j.error&&j.error.message)||('Apify respondió con error '+r.status)); }
+  var run=(await r.json()).data, t0=Date.now();
+  while(run && (run.status==='READY'||run.status==='RUNNING')){
+    await sleep(5000);
+    if(Date.now()-t0>15*60e3) throw new Error('tardó demasiado; prueba con menos anuncios');
+    try{ var rr=await fetch('https://api.apify.com/v2/actor-runs/'+run.id,{headers:h}); if(rr.ok) run=(await rr.json()).data; }catch(e){}
+    onProgress(Math.round((Date.now()-t0)/1000));
+  }
+  if(!run || run.status!=='SUCCEEDED') throw new Error('la búsqueda terminó con estado '+(run&&run.status));
+  var ir=await fetch('https://api.apify.com/v2/datasets/'+run.defaultDatasetId+'/items?clean=true&format=json',{headers:h});
+  if(!ir.ok) throw new Error('no se pudieron leer los resultados ('+ir.status+')');
+  return {items:await ir.json(), cost:run.usageTotalUsd};
+}
+
+/* ---- normalizar un anuncio (cada lector usa nombres algo distintos) ---- */
+function firstNum(o,paths){
+  for(var i=0;i<paths.length;i++){
+    var v=paths[i].split('.').reduce(function(a,k){ return a==null?a:a[k]; }, o);
+    if(v!=null && v!=='' && !isNaN(Number(v))) return Number(v);
+  }
+  return null;
+}
+function toMs(v){
+  if(v==null||v==='') return null;
+  if(typeof v==='number' || /^\d+$/.test(String(v))){ var n=Number(v); return n<1e12?n*1000:n; }
+  var t=Date.parse(v); return isNaN(t)?null:t;
+}
+function normAd(x){
+  if(!x || typeof x!=='object' || x.error) return null;
+  var s=x.snapshot||{};
+  var name=pick(x,['page_name','pageName','snapshot.page_name','snapshot.pageName','advertiser','snapshot.current_page_name']);
+  if(!name) return null;
+  var cats=s.page_categories||s.pageCategories||x.page_categories||x.categories||[];
+  if(!Array.isArray(cats)) cats=[cats];
+  cats=cats.map(function(c){ return typeof c==='string'?c:(c&&(c.name||c.text))||''; }).filter(Boolean);
+  var cards=s.cards||[];
+  var video=!!((s.videos&&s.videos.length) || cards.some(function(c){ return c&&(c.video_hd_url||c.video_sd_url); }));
+  var fmt=(pick(x,['snapshot.display_format','snapshot.displayFormat','display_format'])||'').toUpperCase();
+  if(fmt==='VIDEO') video=true;
+  if(!fmt) fmt=video?'VIDEO':((s.images&&s.images.length)||cards.length?'IMAGE':'');
+  return {
+    id:String(x.ad_archive_id||x.adArchiveID||x.adArchiveId||x.ad_id||x.id||''),
+    pageId:String(x.page_id||x.pageID||x.pageId||s.page_id||s.pageId||''),
+    name:name,
+    likes:firstNum(x,['snapshot.page_like_count','snapshot.pageLikeCount','page_like_count','pageLikeCount','likes']),
+    cats:cats,
+    pic:pick(x,['snapshot.page_profile_picture_url','snapshot.pageProfilePictureUrl','page_profile_picture_url']),
+    pageUrl:pick(x,['snapshot.page_profile_uri','snapshot.pageProfileUri','page_profile_uri','pageProfileUri']),
+    text:(pick(x,['snapshot.body.text','snapshot.body','body.text','body','text','snapshot.cards.0.body','ad_creative_bodies'])||'').slice(0,700),
+    title:pick(x,['snapshot.title','title','snapshot.cards.0.title','ad_creative_link_titles']),
+    cta:pick(x,['snapshot.cta_text','cta_text','ctaText','snapshot.cards.0.cta_text']),
+    ctaType:pick(x,['snapshot.cta_type','cta_type','ctaType','snapshot.cards.0.cta_type']),
+    link:pick(x,['snapshot.link_url','snapshot.linkUrl','link_url','snapshot.cards.0.link_url']),
+    caption:pick(x,['snapshot.caption','caption','snapshot.cards.0.caption']),
+    format:fmt, video:video,
+    start:toMs(x.start_date!=null?x.start_date:(x.startDate!=null?x.startDate:(x.start_date_formatted||x.startDateFormatted))),
+    active:x.is_active!==false && x.isActive!==false,
+    versions:firstNum(x,['collation_count','collationCount'])||1
+  };
+}
+
+/* ---- sacar contactos de enlaces y textos ---- */
+function realUrl(u){
+  try{ var U=new URL(u); if(/l\.facebook\.com$|l\.instagram\.com$/.test(U.hostname)||U.pathname==='/l.php'){ var t=U.searchParams.get('u'); if(t) return t; } }catch(e){}
+  return u;
+}
+function addLink(c,u){
+  if(!u) return; u=realUrl(String(u).trim());
+  if(!/^https?:\/\//i.test(u)){ if(/^[\w-]+(\.[\w-]+)+(\/\S*)?$/.test(u)) u='https://'+u; else return; }
+  var U; try{ U=new URL(u); }catch(e){ return; }
+  var h=U.hostname.replace(/^www\./,'').toLowerCase();
+  if(/(^|\.)wa\.me$|whatsapp\.com$/.test(h)){
+    var n=((U.searchParams.get('phone')||U.pathname)||'').replace(/\D/g,'');
+    if(n.length>=8&&n.length<=15) c.wa[n]=1; else c.waPage=true; return;
+  }
+  if(/instagram\.com$/.test(h)){ var hn=U.pathname.split('/')[1]; if(hn && !/^(p|reel|reels|stories|explore|accounts)$/.test(hn)) c.ig[hn.toLowerCase()]=1; return; }
+  if(/(^|\.)m\.me$|messenger\.com$/.test(h)){ c.msgr=u; return; }
+  if(/facebook\.com$|fb\.com$|fb\.me$|fb\.watch$|fbcdn\.net$|bit\.ly$/.test(h)) return;
+  c.web[U.protocol+'//'+U.hostname]=1;
+}
+function scanText(c,t){
+  if(!t) return;
+  (t.match(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g)||[]).forEach(function(e){ if(!/\.(png|jpe?g|gif|webp)$/i.test(e)) c.emails[e.toLowerCase()]=1; });
+  var rest=t.replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g,' ');
+  (rest.match(/https?:\/\/[^\s)]+/g)||[]).forEach(function(u){ addLink(c,u); });
+  (rest.match(/\b(?:wa\.me\/|api\.whatsapp\.com\/send\?phone=)\+?\d{8,15}/gi)||[]).forEach(function(u){ addLink(c,'https://'+u); });
+  rest=rest.replace(/https?:\/\/[^\s)]+/g,' ').replace(/\bwa\.me\/\S+/gi,' ');
+  var talksWa=/whats|wsp|wpp|w\.a\b/i.test(t);
+  (rest.match(/(?:\+|00)?\d[\d\s().-]{6,}\d/g)||[]).forEach(function(p){
+    var d=p.replace(/\D/g,'').replace(/^00/,'');
+    if(d.length<8||d.length>15) return;
+    if(/^\d{1,3}([.,]\d{3})+$/.test(p.trim())) return;      // precio tipo 1.500.000
+    if(talksWa) c.wa[d]=1; else c.phones[d]=1;
+  });
+  (rest.match(/(?:^|[\s(])@([A-Za-z0-9_.]{3,30})/g)||[]).forEach(function(m){ c.ig[m.replace(/^[\s(]*@/,'').replace(/\.$/,'').toLowerCase()]=1; });
+}
+function contactsOf(L){
+  var c={wa:{},phones:{},emails:{},web:{},ig:{},waPage:false,msgr:''};
+  L.ads.forEach(function(a){
+    addLink(c,a.link);
+    if(a.caption && /\./.test(a.caption) && !/\s/.test(a.caption.trim())) addLink(c,a.caption.toLowerCase());
+    scanText(c,(a.text||'')+'\n'+(a.title||''));
+  });
+  var out={waPage:c.waPage,msgr:c.msgr};
+  ['wa','phones','emails','web','ig'].forEach(function(k){ out[k]=Object.keys(c[k]); });
+  out.phones=out.phones.filter(function(p){ return out.wa.indexOf(p)<0; });
+  return out;
+}
+
+/* ---- clasificar y puntuar ---- */
+function derive(L){
+  var c=contactsOf(L), now=Date.now();
+  var starts=L.ads.map(function(a){ return a.start; }).filter(Boolean);
+  var days=starts.length?Math.max(0,Math.round((now-Math.min.apply(null,starts))/864e5)):null;
+  var hasVideo=L.ads.some(function(a){ return a.video; });
+  var versions=L.ads.reduce(function(s,a){ return s+(a.versions||1); },0);
+  var cats=(L.cats||[]).join(' ').toLowerCase();
+  var type=/creador|creator|personaje|figura p|public figure|blog|influenc|artist|músic|music|atleta|athlete|periodista|journalist|youtuber|gamer|comediante|comedian/.test(cats)?'creador'
+          :(L.likes!=null&&L.likes>=300000)?'marca':'negocio';
+  var size=L.likes==null?'':L.likes<5000?'micro':L.likes<50000?'pequeño':L.likes<300000?'mediano':'grande';
+  var waCta=L.ads.some(function(a){ return /WHATSAPP/i.test(a.ctaType||'')||/whatsapp/i.test(a.cta||''); });
+  var s=0,R=[];
+  if(days==null) s+=8;
+  else if(days>=60){ s+=25; R.push('Lleva '+days+' días anunciándose: tiene presupuesto'); }
+  else if(days>=30){ s+=18; R.push('Lleva '+days+' días anunciándose'); }
+  else if(days>=14){ s+=10; R.push('Lleva '+days+' días con anuncios'); }
+  else { s+=4; R.push('Empezó a anunciarse hace poco ('+days+' días)'); }
+  if(versions>=5){ s+=15; R.push('Prueba '+versions+' versiones de anuncios: invierte en serio'); }
+  else if(versions>=2){ s+=9; R.push(versions+' versiones de anuncios'); }
+  else s+=3;
+  if(!hasVideo){ s+=20; R.push('Solo usa imágenes: ofrécele video (AUREA)'); } else s+=6;
+  if(size==='micro'||size==='pequeño'){ s+=15; R.push('Página '+size+': hablas directo con el dueño'); }
+  else if(size==='mediano') s+=8; else if(size==='grande') s+=2; else s+=8;
+  if(c.wa.length){ s+=20; R.push('WhatsApp directo en el anuncio'); }
+  else if(c.phones.length){ s+=16; R.push('Teléfono en el texto del anuncio'); }
+  else if(c.emails.length||c.web.length){ s+=12; R.push('Tiene web o correo'); }
+  else if(waCta||c.waPage){ s+=10; R.push('Recibe mensajes por WhatsApp desde su página'); }
+  else s+=3;
+  if(type==='marca'){ s-=10; R.push('Marca grande: difícil llegar a quien decide'); }
+  if(type==='creador') R.push('Creador/influencer: ofrécele subtítulos, clips y edición');
+  return {c:c,days:days,hasVideo:hasVideo,versions:versions,type:type,size:size,waCta:waCta,score:Math.max(0,Math.min(100,s)),reasons:R};
+}
+function bestAd(L){ return L.ads.slice().sort(function(a,b){ return (b.text||'').length-(a.text||'').length; })[0]||{}; }
+
+/* ---- juntar anuncios por anunciante y guardar ---- */
+function ingest(items, kw){
+  var ads=(Array.isArray(items)?items:(items&&items.items)||[]).map(normAd).filter(Boolean);
+  var all=leadsRead(), nuevos=0, keys={}, country=$('country').value;
+  ads.forEach(function(a){
+    var key='p'+(a.pageId||a.name.toLowerCase().replace(/\W+/g,'-'));
+    var L=all[key];
+    if(!L){ L=all[key]={key:key,name:a.name,pageId:a.pageId,status:'nuevo',msg:'',found:Date.now(),ads:[],kw:kw,country:country}; nuevos++; }
+    L.name=a.name||L.name; L.pageId=a.pageId||L.pageId;
+    if(a.likes!=null) L.likes=a.likes;
+    if(a.cats.length) L.cats=a.cats;
+    if(a.pic) L.pic=a.pic;
+    L.pageUrl=a.pageUrl||L.pageUrl||(a.pageId?'https://www.facebook.com/'+a.pageId:'');
+    var ad={id:a.id,text:a.text,title:a.title,cta:a.cta,ctaType:a.ctaType,link:a.link,caption:a.caption,format:a.format,video:a.video,start:a.start,active:a.active,versions:a.versions};
+    var i=L.ads.findIndex(function(x){ return x.id && x.id===a.id; });
+    if(i>=0) L.ads[i]=ad; else L.ads.push(ad);
+    if(L.ads.length>8) L.ads=L.ads.slice(-8);
+    keys[key]=1;
+  });
+  if(!leadsWrite(all)) throw new Error('el navegador no tiene más espacio: exporta y borra prospectos viejos');
+  return {ads:ads.length,total:Object.keys(keys).length,nuevos:nuevos};
+}
+
+$('leadRunBtn').addEventListener('click', async function(){
+  var q=$('q').value.trim(), adv=$('adv').value.trim(), btn=this;
+  if(!q && !adv){ leadStatus('⚠️ Escribe primero una palabra clave en la pestaña <b>Buscar</b>.','err'); return; }
+  if(!apifyToken()){ leadStatus('⚙️ Hace falta la <b>lectura automática</b>: ve a <b>Analizar → ⚙️ Lectura automática</b> y pega tu clave de Apify.','err'); return; }
+  var n=parseInt($('leadN').value,10), url=buildMetaUrl();
+  saveSearch();
+  btn.disabled=true; leadStatus('<span class="spin"></span>Pidiendo '+n+' anuncios a Meta…');
+  try{
+    var res=await apifyRun({urls:[{url:url}],startUrls:[{url:url}],count:n,maxItems:n,resultsLimit:n,limitPerSource:n},
+      function(sec){ leadStatus('<span class="spin"></span>Leyendo anuncios en Meta… '+sec+' s (suele tardar 1-3 min)'); });
+    var r=ingest(res.items, q||adv);
+    if(!r.ads) leadStatus('⚠️ Meta no devolvió anuncios con esos filtros. Prueba otra palabra o país.','err');
+    else leadStatus('✅ '+r.ads+' anuncios → '+r.total+' anunciantes ('+r.nuevos+' nuevos).'+(res.cost!=null?' Gasto en Apify: $'+Number(res.cost).toFixed(3)+'.':''),'ok');
+    renderLeads();
+  }catch(e){ leadStatus('❌ No se pudo buscar: '+esc((e&&e.message)||e)+'.','err'); }
+  btn.disabled=false;
+});
+
+$('leadImport').addEventListener('change', function(){
+  var f=this.files[0]; this.value=''; if(!f) return;
+  var rd=new FileReader();
+  rd.onload=function(){
+    try{ var r=ingest(JSON.parse(rd.result), $('q').value.trim()||'importado'); leadStatus('✅ Importados '+r.ads+' anuncios → '+r.total+' anunciantes ('+r.nuevos+' nuevos).','ok'); renderLeads(); }
+    catch(e){ leadStatus('❌ Ese archivo no es un JSON de anuncios válido.','err'); }
+  };
+  rd.readAsText(f);
+});
+
+/* ---- pintar la lista ---- */
+(function(){ var s=$('lfState'); STATES.forEach(function(x){ var o=document.createElement('option'); o.value=x[0]; o.textContent=x[1]; s.appendChild(o); }); })();
+['lfType','lfContact','lfFormat','lfState','lfSort'].forEach(function(id){ $(id).addEventListener('change', renderLeads); });
+$('lfQ').addEventListener('input', renderLeads);
+
+function leadCard(L,d){
+  var c=d.c, col=d.score>=70?'var(--ok)':d.score>=45?'var(--acc)':'var(--bad)';
+  var tags=['<span class="tag">'+TYPE_LBL[d.type]+'</span>'];
+  if(L.likes!=null) tags.push('<span class="tag">'+(d.size?d.size+' · ':'')+fmtNum(L.likes)+' seguidores</span>');
+  if(d.days!=null) tags.push('<span class="tag'+(d.days>=30?' hot':'')+'">⏱ '+d.days+' días</span>');
+  tags.push('<span class="tag">'+L.ads.length+' anuncio'+(L.ads.length>1?'s':'')+' · '+d.versions+' versi'+(d.versions>1?'ones':'ón')+'</span>');
+  tags.push(d.hasVideo?'<span class="tag">🎬 usa video</span>':'<span class="tag hot">🖼 solo imagen</span>');
+  if(L.cats&&L.cats[0]) tags.push('<span class="tag">'+esc(L.cats[0])+'</span>');
+  if(L.kw) tags.push('<span class="tag">🔎 '+esc(L.kw)+'</span>');
+  var ct=[];
+  c.wa.forEach(function(n){ ct.push('🟢 WhatsApp: <a href="https://wa.me/'+n+'" target="_blank" rel="noopener">+'+n+'</a>'); });
+  if(c.phones.length) ct.push('📞 '+c.phones.map(function(p){ return '<a href="tel:+'+p+'">+'+p+'</a>'; }).join(', '));
+  c.emails.forEach(function(e){ ct.push('✉️ <a href="mailto:'+esc(e)+'">'+esc(e)+'</a>'); });
+  c.web.forEach(function(w){ ct.push('🌐 <a href="'+esc(w)+'" target="_blank" rel="noopener">'+esc(w.replace(/^https?:\/\//,''))+'</a>'); });
+  c.ig.forEach(function(h){ ct.push('📸 <a href="https://instagram.com/'+esc(h)+'" target="_blank" rel="noopener">@'+esc(h)+'</a>'); });
+  if(L.pageUrl) ct.push('📘 <a href="'+esc(L.pageUrl)+'" target="_blank" rel="noopener">Su página de Facebook</a>'+(!c.wa.length&&!c.phones.length&&!c.emails.length&&!c.web.length?' <span style="color:var(--mut)">— escríbele por su botón de '+(d.waCta||c.waPage?'WhatsApp':'mensaje')+'</span>':''));
+  var ad=bestAd(L), opts=STATES.map(function(s){ return '<option value="'+s[0]+'"'+(L.status===s[0]?' selected':'')+'>'+s[1]+'</option>'; }).join('');
+  return '<div class="lead" data-id="'+esc(L.key)+'">'+
+    '<div class="lead-top">'+(L.pic?'<img src="'+esc(L.pic)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">':'')+
+      '<div class="lead-name">'+(L.pageUrl?'<a href="'+esc(L.pageUrl)+'" target="_blank" rel="noopener">'+esc(L.name)+'</a>':esc(L.name))+
+      '<small>'+(L.country&&L.country!=='ALL'?esc(L.country)+' · ':'')+'encontrado el '+new Date(L.found).toLocaleDateString()+'</small></div>'+
+      '<div class="lead-score"><span style="color:'+col+'">'+d.score+'</span><b>potencial</b></div></div>'+
+    '<div class="tags">'+tags.join('')+'</div>'+
+    '<div class="contacts">'+(ct.map(function(x){ return '<div>'+x+'</div>'; }).join('')||'<span style="color:var(--mut)">Sin contacto visible.</span>')+'</div>'+
+    '<ul class="reasons">'+d.reasons.map(function(r){ return '<li>'+esc(r)+'</li>'; }).join('')+'</ul>'+
+    (ad.text?'<div class="adx">“'+esc(ad.text.slice(0,170))+(ad.text.length>170?'…':'')+'”</div>':'')+
+    '<textarea data-msg placeholder="Pulsa ✍️ Mensaje y la IA lo escribe para este negocio. Puedes editarlo.">'+esc(L.msg||'')+'</textarea>'+
+    '<div class="btns">'+
+      '<button class="btn small" data-act="gen">✍️ Mensaje</button>'+
+      '<button class="btn teal small" data-act="wa">🟢 Enviar</button>'+
+      '<button class="btn ghost small" data-act="copy">⧉ Copiar</button>'+
+      '<select class="st" data-st>'+opts+'</select>'+
+    '</div><div class="btns">'+
+      '<button class="btn ghost small" data-act="ads">📚 Sus anuncios</button>'+
+      '<button class="btn ghost small" data-act="an">🧠 Analizar su anuncio</button>'+
+      '<button class="btn ghost small" data-act="del">✕ Quitar</button>'+
+    '</div></div>';
+}
+
+function renderLeads(){
+  var all=leadsRead(), arr=Object.keys(all).map(function(k){ return all[k]; });
+  $('leadCount').textContent=arr.length;
+  var fT=$('lfType').value, fC=$('lfContact').value, fF=$('lfFormat').value, fS=$('lfState').value, fQ=$('lfQ').value.trim().toLowerCase(), ord=$('lfSort').value;
+  var rows=arr.map(function(L){ return {L:L,d:derive(L)}; }).filter(function(x){
+    var c=x.d.c, direct=c.wa.length||c.phones.length||c.emails.length||c.web.length;
+    if(fT && x.d.type!==fT) return false;
+    if(fC==='wa' && !(c.wa.length||c.phones.length)) return false;
+    if(fC==='any' && !direct) return false;
+    if(fC==='none' && direct) return false;
+    if(fF==='img' && x.d.hasVideo) return false;
+    if(fF==='vid' && !x.d.hasVideo) return false;
+    if(fS && x.L.status!==fS) return false;
+    if(fQ && (x.L.name+' '+x.L.ads.map(function(a){ return a.text; }).join(' ')).toLowerCase().indexOf(fQ)<0) return false;
+    return true;
+  });
+  rows.sort(function(a,b){
+    if(ord==='days') return (b.d.days||0)-(a.d.days||0);
+    if(ord==='recent') return b.L.found-a.L.found;
+    return b.d.score-a.d.score;
+  });
+  $('leadTot').textContent=arr.length?'· '+rows.length+' de '+arr.length:'';
+  $('leadList').innerHTML=rows.length
+    ? rows.slice(0,150).map(function(x){ return leadCard(x.L,x.d); }).join('')+(rows.length>150?'<div class="empty">Mostrando 150. Usa los filtros para ver el resto.</div>':'')
+    : '<div class="empty">'+(arr.length?'Nada coincide con los filtros.':'Todavía no hay prospectos. Busca arriba con 🎯 Buscar prospectos.')+'</div>';
+}
+
+/* ---- mensaje: con IA o con plantilla ---- */
+function tplMsg(L,d){
+  var ad=bestAd(L), off=offerGet();
+  return 'Hola, '+L.name+' 👋\n'+
+    'Vi su anuncio'+(ad.title?' «'+ad.title.slice(0,60)+'»':'')+(d.days>=14?', que lleva unos '+d.days+' días activo':'')+'.\n'+
+    (d.hasVideo?'Tengo un par de ideas para que les rinda más.':'Noté que lo mueven solo con imágenes; un video corto con voz y subtítulos suele detener más el scroll.')+'\n'+
+    'Les puedo hacer una versión de muestra gratis, sin compromiso, para que la comparen.\n'+
+    '¿Quieren que se la envíe?\n— '+off.sign;
+}
+function msgPrompt(L,d){
+  var ad=bestAd(L), off=offerGet();
+  return 'Escribe el primer mensaje de WhatsApp para ofrecer mis servicios a este anunciante de Facebook/Instagram.\n\n'+
+    'ANUNCIANTE: '+L.name+'\nCATEGORÍA: '+((L.cats||[]).join(', ')||'—')+'\nTIPO: '+TYPE_LBL[d.type].replace(/^\S+\s/,'')+
+    '\nLLEVA ANUNCIÁNDOSE: '+(d.days!=null?d.days+' días':'no se sabe')+'\nFORMATO DE SUS ANUNCIOS: '+(d.hasVideo?'usa video':'solo imágenes, sin video')+
+    '\nTITULAR: '+(ad.title||'—')+'\nTEXTO DE SU ANUNCIO:\n'+(ad.text||'(sin texto)').slice(0,500)+
+    '\n\nLO QUE YO OFREZCO:\n'+off.text+'\nMI FIRMA: '+off.sign+
+    '\n\nReglas: entre 45 y 80 palabras; tono cercano y profesional, español neutro; menciona un detalle concreto de su anuncio para que se note que no es un mensaje masivo; '+
+    'propón UNA sola cosa (la que más le sirva según los datos) con una muestra gratis sin compromiso; termina con una pregunta sencilla; '+
+    'sin hashtags, sin mayúsculas exageradas y sin prometer resultados; firma al final. Devuelve SOLO el mensaje, sin comillas ni explicaciones.';
+}
+function saveLead(L){ var all=leadsRead(); all[L.key]=L; leadsWrite(all); }
+
+$('leadList').addEventListener('change', function(e){
+  var card=e.target.closest('.lead'); if(!card) return;
+  var all=leadsRead(), L=all[card.dataset.id]; if(!L) return;
+  if(e.target.matches('[data-st]')){ L.status=e.target.value; saveLead(L); $('leadCount').textContent=Object.keys(all).length; }
+  if(e.target.matches('[data-msg]')){ L.msg=e.target.value; saveLead(L); }
+});
+$('leadList').addEventListener('click', async function(e){
+  var b=e.target.closest('button[data-act]'); if(!b) return;
+  var card=b.closest('.lead'), all=leadsRead(), L=all[card.dataset.id]; if(!L) return;
+  var act=b.dataset.act, ta=card.querySelector('[data-msg]'), d=derive(L);
+  if(act==='gen'){
+    var c=aiCfg(), ok=c.engine==='openai'?!!c.oaKey:!!c.olModel;
+    if(!ok){ ta.value=tplMsg(L,d); L.msg=ta.value; saveLead(L); flash(b,'Plantilla (configura la IA en Analizar)'); return; }
+    b.disabled=true; ta.value='✍️ Escribiendo…';
+    try{ var t=await generate(msgPrompt(L,d),null,function(x){ ta.value=x; }); ta.value=t.trim().replace(/^["«“]|["»”]$/g,''); }
+    catch(err){ ta.value=tplMsg(L,d); flash(b,'La IA falló: plantilla'); }
+    L.msg=ta.value; saveLead(L); b.disabled=false; return;
+  }
+  var msg=(ta.value.trim()&&ta.value.indexOf('✍️ Escribiendo')!==0)?ta.value.trim():tplMsg(L,d);
+  if(act==='copy'){ if(await copyText(msg)) flash(b,'✓ Copiado'); return; }
+  if(act==='wa'){
+    L.msg=msg; ta.value=msg;
+    var n=d.c.wa[0]||d.c.phones[0];
+    if(n) window.open('https://wa.me/'+n+'?text='+encodeURIComponent(msg),'_blank','noopener');
+    else{ await copyText(msg); if(L.pageUrl) window.open(L.pageUrl,'_blank','noopener'); flash(b,'Copiado: pégalo en su página'); }
+    if(L.status==='nuevo'){ L.status='contactado'; card.querySelector('[data-st]').value='contactado'; }
+    L.contacted=Date.now(); saveLead(L); return;
+  }
+  if(act==='ads'){
+    var u=L.pageId?'https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=ALL&view_all_page_id='+L.pageId+'&search_type=page'
+                  :'https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=ALL&search_type=keyword_unordered&q='+encodeURIComponent(L.name);
+    window.open(u,'_blank','noopener'); return;
+  }
+  if(act==='an'){
+    var a=bestAd(L);
+    $('clearBtn').click();
+    $('aText').value=a.text||''; $('aBrand').value=L.name; $('aHead').value=a.title||'';
+    $('aLink').value=a.id?'https://www.facebook.com/ads/library/?id='+a.id:''; setCta(a.cta);
+    goTab('analizar'); setStatus('Anuncio de <b>'+esc(L.name)+'</b> cargado. Pulsa <b>Analizar y mejorar</b>'+(a.id&&apifyToken()?' (o ⚡ Traer para cargar también la imagen o el video)':'')+'.');
+    return;
+  }
+  if(act==='del'){ if(!confirm('¿Quitar a '+L.name+' de la lista?')) return; delete all[L.key]; leadsWrite(all); renderLeads(); }
+});
+
+$('leadCsvBtn').addEventListener('click', function(){
+  var all=leadsRead(), ks=Object.keys(all); if(!ks.length) return;
+  function c(s){ return '"'+String(s==null?'':s).replace(/"/g,'""').replace(/\r?\n/g,' ')+'"'; }
+  var st={}; STATES.forEach(function(s){ st[s[0]]=s[1].replace(/^\S+\s/,''); });
+  var csv='anunciante,potencial,tipo,tamaño,seguidores,dias_anunciandose,anuncios,versiones,formato,whatsapp,telefonos,correos,web,instagram,pagina_facebook,estado,busqueda,pais,mensaje,texto_anuncio\n'+
+    ks.map(function(k){ var L=all[k], d=derive(L), x=d.c;
+      return [c(L.name),d.score,c(TYPE_LBL[d.type].replace(/^\S+\s/,'')),c(d.size),L.likes==null?'':L.likes,d.days==null?'':d.days,L.ads.length,d.versions,
+        c(d.hasVideo?'video':'solo imagen'),c(x.wa.join(' ')),c(x.phones.join(' ')),c(x.emails.join(' ')),c(x.web.join(' ')),c(x.ig.join(' ')),c(L.pageUrl),
+        c(st[L.status]||L.status),c(L.kw),c(L.country),c(L.msg),c(bestAd(L).text)].join(',');
+    }).join('\n');
+  download('prospectos-adspy.csv','﻿'+csv,'text/csv');
+});
+$('leadDelAll').addEventListener('click', function(){
+  if(!confirm('¿Borrar TODOS los prospectos? Exporta antes a Excel si los quieres guardar.')) return;
+  leadsWrite({}); renderLeads();
+});
+
 /* ---------- arranque ---------- */
+try{ $('leadCount').textContent=Object.keys(leadsRead()).length; }catch(e){}
 updateUrl();
 renderHist();
 refreshCount();
@@ -1120,3 +1588,5 @@ paintCfg();
 paintAiCfg();
 if(aiCfg().engine==='ollama') refreshOllama(true).then(function(ok){ if(ok && !aiCfg().olModel) saveAiCfg(); });
 </script>
+
+</body></html>
